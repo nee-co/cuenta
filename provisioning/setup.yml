@@ -1,0 +1,10 @@
+---
+- name: installs all components
+  hosts: localhost
+  connection: local
+  become: true
+  roles:
+    - common
+    - mariadb
+    - elixir
+    - phoenix

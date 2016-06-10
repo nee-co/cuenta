@@ -1,0 +1,6 @@
+---
+mariadb:
+  config:
+    username: root
+    password: ""
+    
