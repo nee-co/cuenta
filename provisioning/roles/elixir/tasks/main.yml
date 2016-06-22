@@ -3,6 +3,7 @@
   get_url: >
             url=http://packages.erlang-solutions.com/rpm/centos/erlang_solutions.repo
             dest=/etc/yum.repos.d/
+
 - name: install dependency packages
   yum: name={{ item }} state=present
   with_items:
@@ -13,16 +14,19 @@
     - ncurses-devel
     - openssl-devel
     - esl-erlang
+
 - name: verify elixir installation
   command: iex --version
-  sudo: no
+  become: no
   register: which_iex
-  ignore_errors: true
+  ignore_errors: yes
+
 - name: compilation (clone)
   git: >
         repo=https://github.com/elixir-lang/elixir.git
         dest={{ elixir_lang.dest.root }} update=no
         version={{ elixir_lang.version }}
+
 - name: compilation (build started)
   command: make clean install chdir={{ elixir_lang.dest.root }}
   when: which_iex | failed
