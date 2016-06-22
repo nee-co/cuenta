@@ -1,6 +1,6 @@
 ---
 common:
-  popular_packages: 
+  popular_packages:
     - git
     - zip
     - unzip
