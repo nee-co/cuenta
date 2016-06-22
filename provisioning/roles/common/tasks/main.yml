@@ -1,10 +1,9 @@
 ---
 - name: popular software programs
   yum: name={{ item }} state=present
-  with_items: common.popular_packages
+  with_items: "{{ common.popular_packages }}"
   when: common.popular_packages is defined
 
-# for Japan
 - name: ntp server (chronyd)
   yum: name=chrony state=present
 
@@ -14,7 +13,7 @@
 
 - name: server settings
   lineinfile: dest=/etc/chrony.conf line="server {{ item }} iburst"
-  with_items: common.ntp_config.servers
+  with_items: "{{ common.ntp_config.servers }}"
   notify: restart service (chronyd)
   when: common.ntp_config.enabled
 
@@ -27,5 +26,4 @@
          force=yes
 
 - name: hardware > system time
-  # http://blog.livedoor.jp/hakin/archives/22700821.html
   command: /usr/sbin/hwclock --hctosys --localtime
