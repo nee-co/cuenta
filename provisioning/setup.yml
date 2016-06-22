@@ -1,6 +1,6 @@
 ---
 - name: installs all components
-  hosts: localhost
+  hosts: cuenta
   connection: local
   become: true
   roles:

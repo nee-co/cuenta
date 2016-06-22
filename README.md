@@ -26,7 +26,7 @@
 ### 事前準備
 - 以下をインストール(基本的に最新versionで問題ないが、心配なら他の開発者に相談すること)
     * [Git](http://git-scm.com/)
-    * [Vagrant](https://www.vagrantup.com/downloads.html)
+    * [Vagrant](https://www.vagrantup.com/downloads.html) >= 1.8.4
     * [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
 - Bitbucket/SSHキーの設定
