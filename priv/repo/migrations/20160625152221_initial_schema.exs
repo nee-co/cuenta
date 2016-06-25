@@ -1,4 +1,4 @@
-defmodule Cuenta.Repo.Migrations.CreateUser do
+defmodule Cuenta.Repo.Migrations.InitialSchema do
   use Ecto.Migration
 
   def change do
