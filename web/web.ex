@@ -22,7 +22,7 @@ defmodule Cuenta.Web do
 
       import Ecto
       import Ecto.Changeset
-      import Ecto.Query, only: [from: 1, from: 2]
+      import Ecto.Query
     end
   end
 
@@ -32,7 +32,7 @@ defmodule Cuenta.Web do
 
       alias Cuenta.Repo
       import Ecto
-      import Ecto.Query, only: [from: 1, from: 2]
+      import Ecto.Query
 
       import Cuenta.Router.Helpers
       import Cuenta.Gettext
@@ -67,7 +67,7 @@ defmodule Cuenta.Web do
 
       alias Cuenta.Repo
       import Ecto
-      import Ecto.Query, only: [from: 1, from: 2]
+      import Ecto.Query
       import Cuenta.Gettext
     end
   end

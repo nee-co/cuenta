@@ -2,7 +2,7 @@ defmodule Cuenta.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "rooms:*", Cuenta.RoomChannel
+  # channel "room:*", Cuenta.RoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
