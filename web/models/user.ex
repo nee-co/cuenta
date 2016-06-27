@@ -4,7 +4,7 @@ defmodule Cuenta.User do
   schema "users" do
     field :name, :string
     field :number, :string
-    field :crypted_password, :string
+    field :encrypted_password, :string
     field :college_id, :integer
 
     timestamps()
