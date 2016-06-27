@@ -19,7 +19,7 @@
   command: iex --version
   become: no
   register: which_iex
-  ignore_errors: yes
+  failed_when: which_iex.rc not in [0, 2]
 
 - name: compilation (clone)
   git: >
@@ -29,4 +29,4 @@
 
 - name: compilation (build started)
   command: make clean install chdir={{ elixir_lang.dest.root }}
-  when: which_iex | failed
+  when: which_iex.rc == 2
