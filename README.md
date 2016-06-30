@@ -4,7 +4,7 @@
 |:-------------------:|:-------------------------:|
 |          OS         |          cnetos7.2        |
 |       使用言語      |         Elixir (1.3)      |
-|  使用フレームワーク |       Phoenix (1.1.6)     |
+|  使用フレームワーク |       Phoenix (1.2.0)     |
 |    バージョン管理   |             Git           |
 |    Gitホスティング  |          Bitbucket        |
 |      タスク管理     |           Backlog         |
@@ -56,7 +56,8 @@ $ vagrant ssh
 ```
 vagrant> cd /vagrant
 vagrant> mix deps.get
-vagrant> mix ecto.create && mix ecto.migrate
+vagrant> mix deps.compile
+vagrant> mix ecto.setup
 vagrant> mix phoenix.server
 ```
 
