@@ -3,4 +3,23 @@ defmodule Cuenta.UserController do
 
   alias Cuenta.User
 
+  def list(conn, %{"user_ids" => user_ids}) do
+    ids = ~w/#{user_ids}/
+      |> Enum.map(fn(id) -> String.to_integer(id) end)
+      |> Enum.uniq
+
+    users = User
+      |> where([u], u.id in ^ids)
+      |> Repo.all
+
+    if length(users) == length(ids) do
+      render(conn, "list.json", users: users)
+    else
+      send_resp(conn, 404, "")
+    end
+  end
+
+  def list(conn, _params) do
+    send_resp(conn, 400, "")
+  end
 end
