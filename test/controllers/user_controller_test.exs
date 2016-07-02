@@ -10,7 +10,7 @@ defmodule Cuenta.UserControllerTest do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
-  test "#list valid", %{conn: conn} do
+  test "#list / valid", %{conn: conn} do
     user1 = User.changeset(%User{}, %{@valid_attrs | number: "G011A1111"}) |> Repo.insert!
     user2 = User.changeset(%User{}, %{@valid_attrs | number: "G022B2222"}) |> Repo.insert!
     conn = get conn, user_path(conn, :list, user_ids: "#{user1.id} #{user2.id}")
@@ -27,7 +27,7 @@ defmodule Cuenta.UserControllerTest do
     ]
   end
 
-  test "#list valid duplicate id", %{conn: conn} do
+  test "#list / valid / duplicate id", %{conn: conn} do
     user = User.changeset(%User{}, @valid_attrs) |> Repo.insert!
     conn = get conn, user_path(conn, :list, user_ids: "#{user.id} #{user.id} #{user.id}")
 
@@ -39,13 +39,13 @@ defmodule Cuenta.UserControllerTest do
     ]
   end
 
-  test "#list not found", %{conn: conn} do
+  test "#list / invalid / record not found", %{conn: conn} do
     conn = get conn, user_path(conn, :list, user_ids: 9999)
 
     assert conn.status == 404
   end
 
-  test "#list invalid param", %{conn: conn} do
+  test "#list / invalid / invalid param", %{conn: conn} do
     conn = get conn, user_path(conn, :list)
 
     assert conn.status == 400
