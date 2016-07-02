@@ -5,7 +5,7 @@ defmodule Cuenta.UserController do
 
   def list(conn, %{"user_ids" => user_ids}) do
     ids = ~w/#{user_ids}/
-      |> Enum.map(fn(id) -> String.to_integer(id) end)
+      |> Enum.map(&String.to_integer(&1))
       |> Enum.uniq
 
     users = User
