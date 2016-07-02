@@ -27,6 +27,18 @@ defmodule Cuenta.UserControllerTest do
     ]
   end
 
+  test "#list valid duplicate id", %{conn: conn} do
+    user = User.changeset(%User{}, @valid_attrs) |> Repo.insert!
+    conn = get conn, user_path(conn, :list, user_ids: "#{user.id} #{user.id} #{user.id}")
+
+    assert json_response(conn, 200)["users"] == [
+      %{
+        "user_id" => user.id, "name" => user.name,
+        "number" => user.number, "college_id" => user.college_id
+        }
+    ]
+  end
+
   test "#list not found", %{conn: conn} do
     conn = get conn, user_path(conn, :list, user_ids: 9999)
 
