@@ -4,13 +4,9 @@ defmodule Cuenta.UserController do
   alias Cuenta.User
 
   def list(conn, %{"user_ids" => user_ids}) do
-    ids = ~w/#{user_ids}/
-      |> Enum.map(&String.to_integer(&1))
-      |> Enum.uniq
+    ids = ~i/#{user_ids}/
 
-    users = User
-      |> where([u], u.id in ^ids)
-      |> Repo.all
+    users = User |> where([u], u.id in ^ids) |> Repo.all
 
     if length(users) == length(ids) do
       render(conn, "list.json", users: users)
