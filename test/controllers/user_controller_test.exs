@@ -45,8 +45,14 @@ defmodule Cuenta.UserControllerTest do
     assert conn.status == 404
   end
 
-  test "#list / invalid / invalid param", %{conn: conn} do
+  test "#list / invalid / no param", %{conn: conn} do
     conn = get conn, user_path(conn, :list)
+
+    assert conn.status == 400
+  end
+
+  test "#list / invalid / non numeric param", %{conn: conn} do
+    conn = get conn, user_path(conn, :list, user_ids: "a")
 
     assert conn.status == 400
   end

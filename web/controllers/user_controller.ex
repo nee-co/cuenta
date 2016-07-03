@@ -13,6 +13,8 @@ defmodule Cuenta.UserController do
     else
       send_resp(conn, 404, "")
     end
+  rescue
+    ArgumentError -> send_resp(conn, 400, "")
   end
 
   def list(conn, _params) do
