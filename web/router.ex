@@ -14,14 +14,10 @@ defmodule Cuenta.Router do
   end
 
   scope "/", Cuenta do
-    pipe_through :browser # Use the default browser stack
-
-    get "/", PageController, :index
-  end
-
-  # Other scopes may use custom stacks.
-  scope "/api", Cuenta do
     pipe_through :api
-    resources "/users", UserController, except: [:new, :edit]
+
+    scope "/users" do
+      get "/list", UserController, :list
+    end
   end
 end

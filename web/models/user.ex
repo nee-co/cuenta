@@ -15,7 +15,7 @@ defmodule Cuenta.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :number, :crypted_password, :college_id])
-    |> validate_required([:name, :number, :crypted_password, :college_id])
+    |> cast(params, [:name, :number, :encrypted_password, :college_id])
+    |> validate_required([:name, :number, :encrypted_password, :college_id])
   end
 end

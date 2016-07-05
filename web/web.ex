@@ -36,6 +36,7 @@ defmodule Cuenta.Web do
 
       import Cuenta.Router.Helpers
       import Cuenta.Gettext
+      import Sigil.ToInteger
     end
   end
 

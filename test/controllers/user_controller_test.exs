@@ -2,62 +2,58 @@ defmodule Cuenta.UserControllerTest do
   use Cuenta.ConnCase
 
   alias Cuenta.User
-  @valid_attrs %{college_id: 42, crypted_password: "some content", name: "some content", number: "some content"}
+
+  @valid_attrs %{college_id: 1, encrypted_password: "password", name: "Hanako Yamada", number: "G011A1111"}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
-  test "lists all entries on index", %{conn: conn} do
-    conn = get conn, user_path(conn, :index)
-    assert json_response(conn, 200)["data"] == []
+  test "#list / valid", %{conn: conn} do
+    user1 = User.changeset(%User{}, %{@valid_attrs | number: "G011A1111"}) |> Repo.insert!
+    user2 = User.changeset(%User{}, %{@valid_attrs | number: "G022B2222"}) |> Repo.insert!
+    conn = get conn, user_path(conn, :list, user_ids: "#{user1.id} #{user2.id}")
+
+    assert json_response(conn, 200)["users"] == [
+      %{
+        "user_id" => user1.id, "name" => user1.name,
+        "number" => user1.number, "college_id" => user1.college_id
+        },
+      %{
+        "user_id" => user2.id, "name" => user2.name,
+        "number" => user2.number, "college_id" => user2.college_id
+        }
+    ]
   end
 
-  test "shows chosen resource", %{conn: conn} do
-    user = Repo.insert! %User{}
-    conn = get conn, user_path(conn, :show, user)
-    assert json_response(conn, 200)["data"] == %{"id" => user.id,
-      "name" => user.name,
-      "number" => user.number,
-      "crypted_password" => user.crypted_password,
-      "college_id" => user.college_id}
+  test "#list / valid / duplicate id", %{conn: conn} do
+    user = User.changeset(%User{}, @valid_attrs) |> Repo.insert!
+    conn = get conn, user_path(conn, :list, user_ids: "#{user.id} #{user.id} #{user.id}")
+
+    assert json_response(conn, 200)["users"] == [
+      %{
+        "user_id" => user.id, "name" => user.name,
+        "number" => user.number, "college_id" => user.college_id
+        }
+    ]
   end
 
-  test "renders page not found when id is nonexistent", %{conn: conn} do
-    assert_error_sent 404, fn ->
-      get conn, user_path(conn, :show, -1)
-    end
+  test "#list / invalid / record not found", %{conn: conn} do
+    conn = get conn, user_path(conn, :list, user_ids: 9999)
+
+    assert conn.status == 404
   end
 
-  test "creates and renders resource when data is valid", %{conn: conn} do
-    conn = post conn, user_path(conn, :create), user: @valid_attrs
-    assert json_response(conn, 201)["data"]["id"]
-    assert Repo.get_by(User, @valid_attrs)
+  test "#list / invalid / no param", %{conn: conn} do
+    conn = get conn, user_path(conn, :list)
+
+    assert conn.status == 400
   end
 
-  test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, user_path(conn, :create), user: @invalid_attrs
-    assert json_response(conn, 422)["errors"] != %{}
-  end
+  test "#list / invalid / non numeric param", %{conn: conn} do
+    conn = get conn, user_path(conn, :list, user_ids: "a")
 
-  test "updates and renders chosen resource when data is valid", %{conn: conn} do
-    user = Repo.insert! %User{}
-    conn = put conn, user_path(conn, :update, user), user: @valid_attrs
-    assert json_response(conn, 200)["data"]["id"]
-    assert Repo.get_by(User, @valid_attrs)
-  end
-
-  test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    user = Repo.insert! %User{}
-    conn = put conn, user_path(conn, :update, user), user: @invalid_attrs
-    assert json_response(conn, 422)["errors"] != %{}
-  end
-
-  test "deletes chosen resource", %{conn: conn} do
-    user = Repo.insert! %User{}
-    conn = delete conn, user_path(conn, :delete, user)
-    assert response(conn, 204)
-    refute Repo.get(User, user.id)
+    assert conn.status == 400
   end
 end
