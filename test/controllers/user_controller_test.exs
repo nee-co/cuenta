@@ -2,6 +2,7 @@ defmodule Cuenta.UserControllerTest do
   use Cuenta.ConnCase
 
   alias Cuenta.User
+  alias Cuenta.College
 
   @valid_attrs %{college_id: 1, encrypted_password: "password", name: "Hanako Yamada", number: "G011A1111"}
   @invalid_attrs %{}
@@ -11,30 +12,33 @@ defmodule Cuenta.UserControllerTest do
   end
 
   test "#list / valid", %{conn: conn} do
-    user1 = User.changeset(%User{}, %{@valid_attrs | number: "G011A1111"}) |> Repo.insert!
-    user2 = User.changeset(%User{}, %{@valid_attrs | number: "G022B2222"}) |> Repo.insert!
+    college1 = College |> Repo.get(1)
+    college2 = College |> Repo.get(2)
+    user1 = User.changeset(%User{}, %{@valid_attrs | number: "G011A1111", college_id: college1.id}) |> Repo.insert!
+    user2 = User.changeset(%User{}, %{@valid_attrs | number: "G022B2222", college_id: college2.id}) |> Repo.insert!
     conn = get conn, user_path(conn, :list, user_ids: "#{user1.id} #{user2.id}")
 
     assert json_response(conn, 200)["users"] == [
       %{
-        "user_id" => user1.id, "name" => user1.name,
-        "number" => user1.number, "college_id" => user1.college_id
+        "user_id" => user1.id, "name" => user1.name, "number" => user1.number,
+        "college" => %{"code" => college1.code, "name" => college1.name}
         },
       %{
-        "user_id" => user2.id, "name" => user2.name,
-        "number" => user2.number, "college_id" => user2.college_id
+        "user_id" => user2.id, "name" => user2.name, "number" => user2.number,
+        "college" => %{"code" => college2.code, "name" => college2.name}
         }
     ]
   end
 
   test "#list / valid / duplicate id", %{conn: conn} do
+    college = College |> Repo.get(1)
     user = User.changeset(%User{}, @valid_attrs) |> Repo.insert!
     conn = get conn, user_path(conn, :list, user_ids: "#{user.id} #{user.id} #{user.id}")
 
     assert json_response(conn, 200)["users"] == [
       %{
-        "user_id" => user.id, "name" => user.name,
-        "number" => user.number, "college_id" => user.college_id
+        "user_id" => user.id, "name" => user.name, "number" => user.number,
+        "college" => %{"code" => college.code, "name" => college.name}
         }
     ]
   end

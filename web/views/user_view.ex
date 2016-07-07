@@ -11,6 +11,6 @@ defmodule Cuenta.UserView do
     %{user_id: user.id,
       name: user.name,
       number: user.number,
-      college_id: user.college_id}
+      college: %{code: user.college.code, name: user.college.name}}
   end
 end

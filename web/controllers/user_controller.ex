@@ -6,7 +6,7 @@ defmodule Cuenta.UserController do
   def list(conn, %{"user_ids" => user_ids}) do
     ids = ~i/#{user_ids}/
 
-    users = User |> where([u], u.id in ^ids) |> Repo.all
+    users = User |> where([u], u.id in ^ids) |> Repo.all |> Repo.preload(:college)
 
     if length(users) == length(ids) do
       render(conn, "list.json", users: users)
