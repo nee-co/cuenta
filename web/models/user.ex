@@ -5,9 +5,10 @@ defmodule Cuenta.User do
     field :name, :string
     field :number, :string
     field :encrypted_password, :string
-    field :college_id, :integer
 
     timestamps()
+
+    belongs_to :college, Cuenta.College
   end
 
   @doc """

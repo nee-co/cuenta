@@ -6,6 +6,8 @@ defmodule Cuenta.College do
     field :code, :string
 
     timestamps()
+
+    has_many :users, Cuenta.User
   end
 
   @doc """
