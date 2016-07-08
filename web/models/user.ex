@@ -11,6 +11,10 @@ defmodule Cuenta.User do
     belongs_to :college, Cuenta.College
   end
 
+  def like_name(query, name) do
+    query |> where([u], like(u.name, ^"%#{name}%"))
+  end
+
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
