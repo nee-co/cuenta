@@ -15,6 +15,14 @@ defmodule Cuenta.User do
     query |> where([u], like(u.name, ^"%#{name}%"))
   end
 
+  def in_college(query, college_ids) do
+    query |> where([u], u.college_id in ^college_ids)
+  end
+
+  def in_user(query, user_ids) do
+    query |> where([u], u.id in ^user_ids)
+  end
+
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
