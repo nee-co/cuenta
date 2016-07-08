@@ -13,7 +13,7 @@ defmodule Cuenta.Repo.Migrations.InitialSchema do
       add :name, :string, null: false
       add :number, :string, size: 9, null: false, unique: true
       add :encrypted_password, :string, null: false
-      add :college_id, references(:colleges, on_delete: :nilify_all, on_update: :update_all)
+      add :college_id, references(:colleges, on_delete: :nilify_all)
 
       timestamps()
     end
