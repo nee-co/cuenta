@@ -147,11 +147,11 @@ defmodule Cuenta.UserControllerTest do
   end
 
   test "#search / invalid / non numeric param", %{conn: conn} do
-    # non numeric user_ids
+    # context: non numeric user_ids
     conn = get conn, user_path(conn, :search, name: "test", user_ids: "string")
     assert conn.status == 400
 
-    # non numeric college_ids
+    # context: non numeric college_ids
     conn = get conn, user_path(conn, :search, name: "test", college_ids: "string")
     assert conn.status == 400
   end
