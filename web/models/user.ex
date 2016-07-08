@@ -11,8 +11,8 @@ defmodule Cuenta.User do
     belongs_to :college, Cuenta.College
   end
 
-  def like_name(query, name) do
-    query |> where([u], like(u.name, ^"%#{name}%"))
+  def like_name_or_number(query, str) do
+    query |> where([u], like(u.name, ^"%#{str}%") or like(u.number, ^"%#{str}%"))
   end
 
   def in_college(query, college_ids) do
