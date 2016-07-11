@@ -18,6 +18,7 @@ defmodule Cuenta.Router do
 
     scope "/users" do
       get "/list", UserController, :list
+      get "/search", UserController, :search
     end
   end
 end

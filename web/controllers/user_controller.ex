@@ -20,4 +20,48 @@ defmodule Cuenta.UserController do
   def list(conn, _params) do
     send_resp(conn, 400, "")
   end
+
+  def search(conn, %{"str" => str, "user_ids" => user_ids, "college_ids" => _college_ids}) do
+    users = User
+    |> User.in_user(~i/#{user_ids}/)
+    |> User.like_name_or_number(str)
+    |> Repo.all |> Repo.preload(:college)
+    render(conn, "search.json", users: users)
+  rescue
+    ArgumentError -> send_resp(conn, 400, "")
+  end
+
+  def search(conn, %{"str" => str, "user_ids" => user_ids}) do
+    users = User
+    |> User.in_user(~i/#{user_ids}/)
+    |> User.like_name_or_number(str)
+    |> Repo.all |> Repo.preload(:college)
+
+    render(conn, "search.json", users: users)
+  rescue
+    ArgumentError -> send_resp(conn, 400, "")
+  end
+
+  def search(conn, %{"str" => str, "college_ids" => college_ids}) do
+    users = User
+    |> User.like_name_or_number(str)
+    |> User.in_college(~i/#{college_ids}/)
+    |> Repo.all |> Repo.preload(:college)
+
+    render(conn, "search.json", users: users)
+  rescue
+    ArgumentError -> send_resp(conn, 400, "")
+  end
+
+  def search(conn, %{"str" => str}) do
+    users = User
+    |> User.like_name_or_number(str)
+    |> Repo.all |> Repo.preload(:college)
+
+    render(conn, "search.json", users: users)
+  end
+
+  def search(conn, _params) do
+    send_resp(conn, 400, "")
+  end
 end

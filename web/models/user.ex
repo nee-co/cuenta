@@ -11,6 +11,18 @@ defmodule Cuenta.User do
     belongs_to :college, Cuenta.College
   end
 
+  def like_name_or_number(query, str) do
+    query |> where([u], like(u.name, ^"%#{str}%") or like(u.number, ^"%#{str}%"))
+  end
+
+  def in_college(query, college_ids) do
+    query |> where([u], u.college_id in ^college_ids)
+  end
+
+  def in_user(query, user_ids) do
+    query |> where([u], u.id in ^user_ids)
+  end
+
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
