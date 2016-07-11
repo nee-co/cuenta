@@ -2,7 +2,7 @@
 ### 共有事項
 |         概要        |   イベント管理APIサーバー |
 |:-------------------:|:-------------------------:|
-|          OS         |          cnetos7.2        |
+|          OS         |         CentOS (7.2)      |
 |       使用言語      |         Elixir (1.3)      |
 |  使用フレームワーク |       Phoenix (1.2.0)     |
 |    バージョン管理   |             Git           |
@@ -19,7 +19,7 @@
 - Phoenix
 - REST
 - JSON
-- MariaDB(Mysql)
+- MariaDB(MySQL)
 
 ---
 
