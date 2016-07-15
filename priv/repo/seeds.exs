@@ -34,4 +34,4 @@ insert_user = fn (num) ->
   Cuenta.Repo.insert!(%Cuenta.User{name: name, number: number, college_id: college_id})
 end
 
-1..700 |> Enum.to_list |> Enum.each(&insert_user.(rem(&1, 7)))
+1..70 |> Enum.to_list |> Enum.each(&insert_user.(rem(&1, 7)))
