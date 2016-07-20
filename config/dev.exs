@@ -38,5 +38,5 @@ config :cuenta, Cuenta.Repo,
   username: "root",
   password: "",
   database: "cuenta_dev",
-  hostname: "localhost",
+  hostname: "localhost", # docker? "db" : "localhost"
   pool_size: 10
