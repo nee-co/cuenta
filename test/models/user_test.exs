@@ -57,4 +57,9 @@ defmodule Cuenta.UserTest do
     refute changeset.valid?
     assert changeset.errors[:college] == {"does not exist", []}
   end
+
+  test "changeset / hash / encrypted_password" do
+    encrypted_password = User.changeset(%User{}, @valid_attrs) |> Ecto.Changeset.get_change(:encrypted_password)
+    assert Comeonin.Bcrypt.checkpw(@valid_attrs.password, encrypted_password)
+  end
 end
