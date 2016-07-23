@@ -36,6 +36,7 @@ defmodule Cuenta.User do
     |> validate_length(:password, min: 8)
     |> update_change(:number, &String.downcase/1)
     |> unique_constraint(:number, message: "duplicate number")
+    |> assoc_constraint(:college)
     |> hash_password
   end
 

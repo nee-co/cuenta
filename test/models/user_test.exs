@@ -52,4 +52,9 @@ defmodule Cuenta.UserTest do
     assert changeset.errors[:number] == {"duplicate number", []}
   end
 
+  test "changeset / invalid / assoc / college" do
+    {:error, changeset} = User.changeset(%User{}, %{@valid_attrs | college_id: 100}) |> Repo.insert
+    refute changeset.valid?
+    assert changeset.errors[:college] == {"does not exist", []}
+  end
 end
