@@ -17,7 +17,7 @@ defmodule Cuenta.User do
   @required_fields ~w(name number password college_id)a
 
   def like_name_or_number(query, str) do
-    query |> where([u], like(u.name, ^"%#{str}%") or like(u.number, ^"%#{str}%"))
+    query |> where([u], like(u.name, ^"%#{str}%") or like(u.number, ^"%#{String.downcase(str)}%"))
   end
 
   def in_college(query, college_ids) do

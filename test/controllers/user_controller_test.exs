@@ -4,7 +4,7 @@ defmodule Cuenta.UserControllerTest do
   alias Cuenta.User
   alias Cuenta.College
 
-  @valid_attrs %{college_id: 1, password: "password", name: "Hanako Yamada", number: "G011A1111"}
+  @valid_attrs %{college_id: 1, password: "password", name: "Hanako Yamada", number: "g011a1111"}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
@@ -14,8 +14,8 @@ defmodule Cuenta.UserControllerTest do
   test "#list / valid", %{conn: conn} do
     college1 = College |> Repo.get(1)
     college2 = College |> Repo.get(2)
-    user1 = User.changeset(%User{}, %{@valid_attrs | number: "G011A1111", college_id: college1.id}) |> Repo.insert!
-    user2 = User.changeset(%User{}, %{@valid_attrs | number: "G022B2222", college_id: college2.id}) |> Repo.insert!
+    user1 = User.changeset(%User{}, %{@valid_attrs | number: "g011a1111", college_id: college1.id}) |> Repo.insert!
+    user2 = User.changeset(%User{}, %{@valid_attrs | number: "g022b2222", college_id: college2.id}) |> Repo.insert!
     conn = get conn, user_path(conn, :list, user_ids: "#{user1.id} #{user2.id}")
 
     assert json_response(conn, 200)["users"] == [
@@ -64,8 +64,8 @@ defmodule Cuenta.UserControllerTest do
   test "#search / valid / name", %{conn: conn} do
     college1 = College |> Repo.get(1)
     college2 = College |> Repo.get(2)
-    user1 = User.changeset(%User{}, %{@valid_attrs | number: "G011A1111", college_id: college1.id, name: "山田"}) |> Repo.insert!
-    user2 = User.changeset(%User{}, %{@valid_attrs | number: "G022B2222", college_id: college2.id, name: "田中"}) |> Repo.insert!
+    user1 = User.changeset(%User{}, %{@valid_attrs | number: "g011a1111", college_id: college1.id, name: "山田"}) |> Repo.insert!
+    user2 = User.changeset(%User{}, %{@valid_attrs | number: "g022b2222", college_id: college2.id, name: "田中"}) |> Repo.insert!
 
     # context: multi hit
     conn = get conn, user_path(conn, :search, str: "田")
@@ -95,11 +95,11 @@ defmodule Cuenta.UserControllerTest do
   test "#search / valid / number", %{conn: conn} do
     college1 = College |> Repo.get(1)
     college2 = College |> Repo.get(2)
-    user1 = User.changeset(%User{}, %{@valid_attrs | number: "G011A1111", college_id: college1.id, name: "山田"}) |> Repo.insert!
-    user2 = User.changeset(%User{}, %{@valid_attrs | number: "G022B2222", college_id: college2.id, name: "田中"}) |> Repo.insert!
+    user1 = User.changeset(%User{}, %{@valid_attrs | number: "g011a1111", college_id: college1.id, name: "山田"}) |> Repo.insert!
+    user2 = User.changeset(%User{}, %{@valid_attrs | number: "g022b2222", college_id: college2.id, name: "田中"}) |> Repo.insert!
 
     # context: multi hit
-    conn = get conn, user_path(conn, :search, str: "G0")
+    conn = get conn, user_path(conn, :search, str: "g0")
     assert json_response(conn, 200)["total_count"] == 2
     assert json_response(conn, 200)["users"] == [
       %{
@@ -113,7 +113,7 @@ defmodule Cuenta.UserControllerTest do
     ]
 
     # context: only hit
-    conn = get conn, user_path(conn, :search, str: "G011")
+    conn = get conn, user_path(conn, :search, str: "g011")
     assert json_response(conn, 200)["total_count"] == 1
     assert json_response(conn, 200)["users"] == [
       %{
@@ -126,8 +126,8 @@ defmodule Cuenta.UserControllerTest do
   test "#search / valid / in_user", %{conn: conn} do
     college1 = College |> Repo.get(1)
     college2 = College |> Repo.get(2)
-    user1 = User.changeset(%User{}, %{@valid_attrs | number: "G011A1111", college_id: college1.id, name: "山田"}) |> Repo.insert!
-    User.changeset(%User{}, %{@valid_attrs | number: "G022B2222", college_id: college2.id, name: "田中"}) |> Repo.insert!
+    user1 = User.changeset(%User{}, %{@valid_attrs | number: "g011a1111", college_id: college1.id, name: "山田"}) |> Repo.insert!
+    User.changeset(%User{}, %{@valid_attrs | number: "g022b2222", college_id: college2.id, name: "田中"}) |> Repo.insert!
     conn = get conn, user_path(conn, :search, str: "田", user_ids: user1.id)
 
     assert json_response(conn, 200)["total_count"] == 1
@@ -142,8 +142,8 @@ defmodule Cuenta.UserControllerTest do
   test "#search / valid / in_college", %{conn: conn} do
     college1 = College |> Repo.get(1)
     college2 = College |> Repo.get(2)
-    User.changeset(%User{}, %{@valid_attrs | number: "G011A1111", college_id: college1.id, name: "山田"}) |> Repo.insert!
-    user2 = User.changeset(%User{}, %{@valid_attrs | number: "G022B2222", college_id: college2.id, name: "田中"}) |> Repo.insert!
+    User.changeset(%User{}, %{@valid_attrs | number: "g011a1111", college_id: college1.id, name: "山田"}) |> Repo.insert!
+    user2 = User.changeset(%User{}, %{@valid_attrs | number: "g022b2222", college_id: college2.id, name: "田中"}) |> Repo.insert!
     conn = get conn, user_path(conn, :search, str: "田", college_ids: college2.id)
 
     assert json_response(conn, 200)["total_count"] == 1
@@ -158,8 +158,8 @@ defmodule Cuenta.UserControllerTest do
   test "#search / deprocated / in_user & in_college", %{conn: conn} do
     college1 = College |> Repo.get(1)
     college2 = College |> Repo.get(2)
-    user1 = User.changeset(%User{}, %{@valid_attrs | number: "G011A1111", college_id: college1.id, name: "山田"}) |> Repo.insert!
-    User.changeset(%User{}, %{@valid_attrs | number: "G022B2222", college_id: college2.id, name: "田中"}) |> Repo.insert!
+    user1 = User.changeset(%User{}, %{@valid_attrs | number: "g011a1111", college_id: college1.id, name: "山田"}) |> Repo.insert!
+    User.changeset(%User{}, %{@valid_attrs | number: "g022b2222", college_id: college2.id, name: "田中"}) |> Repo.insert!
     conn = get conn, user_path(conn, :search, str: "田", user_ids: user1.id, college: college2.id)
 
     assert json_response(conn, 200)["total_count"] == 1
