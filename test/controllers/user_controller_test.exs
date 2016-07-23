@@ -4,7 +4,7 @@ defmodule Cuenta.UserControllerTest do
   alias Cuenta.User
   alias Cuenta.College
 
-  @valid_attrs %{college_id: 1, encrypted_password: "password", name: "Hanako Yamada", number: "G011A1111"}
+  @valid_attrs %{college_id: 1, password: "password", name: "Hanako Yamada", number: "G011A1111"}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
