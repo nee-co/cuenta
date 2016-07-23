@@ -1,11 +1,8 @@
 FROM msaraiva/elixir-dev:1.3.1
 MAINTAINER Nee-co
-
-RUN apk --nocahe --update add mariadb-client
-
-RUN mkdir /app
+RUN apk --no-cache --update add mariadb-client
+ADD . /app
 WORKDIR /app
-ADD mix.exs /app/mix.exs
-ADD mix.lock /app/mix.lock
-
-RUN mix deps.get && mix deps.compile
+ENV MIX_ENV=prod
+RUN mix do deps.get --only prod, compile
+CMD ["mix", "phoenix.server"]

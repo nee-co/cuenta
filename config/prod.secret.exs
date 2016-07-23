@@ -17,4 +17,5 @@ config :cuenta, Cuenta.Repo,
   username: "root",
   password: "",
   database: "cuenta_prod",
+  hostname: "db", # docker? "db" : "localhost"
   pool_size: 20
