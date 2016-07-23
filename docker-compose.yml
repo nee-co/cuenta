@@ -9,13 +9,14 @@ services:
     image: mariadb
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=y
+    ports:
+      - "13306:3306"
     volumes_from:
       - datastore
   web:
     build: .
-    command: mix phoenix.server
-    volumes:
-      - .:/app
+    environment:
+      - PORT=4000
     ports:
       - "4000:4000"
     depends_on:
