@@ -20,8 +20,10 @@ defmodule Cuenta.User do
     query |> where([u], like(u.name, ^"%#{str}%") or like(u.number, ^"%#{String.downcase(str)}%"))
   end
 
-  def in_college(query, college_ids) do
-    query |> where([u], u.college_id in ^college_ids)
+  def in_college(query, college_codes) do
+    query
+    |> join(:inner, [u], c in assoc(u, :college))
+    |> where([_u, c], c.code in ^college_codes)
   end
 
   def in_user(query, user_ids) do
