@@ -144,7 +144,7 @@ defmodule Cuenta.UserControllerTest do
     college2 = College |> Repo.get(2)
     User.changeset(%User{}, %{@valid_attrs | number: "g011a1111", college_id: college1.id, name: "山田"}) |> Repo.insert!
     user2 = User.changeset(%User{}, %{@valid_attrs | number: "g022b2222", college_id: college2.id, name: "田中"}) |> Repo.insert!
-    conn = get conn, user_path(conn, :search, str: "田", college_ids: college2.id)
+    conn = get conn, user_path(conn, :search, str: "田", college_codes: college2.code)
 
     assert json_response(conn, 200)["total_count"] == 1
     assert json_response(conn, 200)["users"] == [
@@ -155,12 +155,28 @@ defmodule Cuenta.UserControllerTest do
     ]
   end
 
-  test "#search / deprocated / in_user & in_college", %{conn: conn} do
+  test "#search / deprecated / in_college / upcase", %{conn: conn} do
+    college1 = College |> Repo.get(1)
+    college2 = College |> Repo.get(2)
+    User.changeset(%User{}, %{@valid_attrs | number: "g011a1111", college_id: college1.id, name: "山田"}) |> Repo.insert!
+    user2 = User.changeset(%User{}, %{@valid_attrs | number: "g022b2222", college_id: college2.id, name: "田中"}) |> Repo.insert!
+    conn = get conn, user_path(conn, :search, str: "田", college_codes: String.upcase(college2.code))
+
+    assert json_response(conn, 200)["total_count"] == 1
+    assert json_response(conn, 200)["users"] == [
+      %{
+        "user_id" => user2.id, "name" => user2.name, "number" => user2.number,
+        "college" => %{"code" => college2.code, "name" => college2.name}
+        }
+    ]
+  end
+
+  test "#search / deprecated / in_user & in_college", %{conn: conn} do
     college1 = College |> Repo.get(1)
     college2 = College |> Repo.get(2)
     user1 = User.changeset(%User{}, %{@valid_attrs | number: "g011a1111", college_id: college1.id, name: "山田"}) |> Repo.insert!
     User.changeset(%User{}, %{@valid_attrs | number: "g022b2222", college_id: college2.id, name: "田中"}) |> Repo.insert!
-    conn = get conn, user_path(conn, :search, str: "田", user_ids: user1.id, college: college2.id)
+    conn = get conn, user_path(conn, :search, str: "田", user_ids: user1.id, college_codes: college2.code)
 
     assert json_response(conn, 200)["total_count"] == 1
     assert json_response(conn, 200)["users"] == [
