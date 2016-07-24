@@ -17,6 +17,6 @@ defmodule Cuenta.Repo.Migrations.InitialSchema do
 
       timestamps()
     end
-    create unique_index(:users, [:number], name: :unique_number)
+    create unique_index(:users, [:number])
   end
 end

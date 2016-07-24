@@ -16,6 +16,10 @@ defmodule Cuenta.Router do
   scope "/", Cuenta do
     pipe_through :api
 
+    scope "/auth" do
+      post "/login", AuthController, :login
+    end
+
     scope "/users" do
       get "/list", UserController, :list
       get "/search", UserController, :search
