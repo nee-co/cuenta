@@ -1,0 +1,6 @@
+---
+docker:
+  # cache_images:
+  #   - centos
+  #   - rancher/server
+  #   - rancher/agent
