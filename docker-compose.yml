@@ -5,21 +5,24 @@ services:
     volumes:
       - /var/lib/mysql
       - /app/log
-  db:
+  database:
     image: mariadb
     environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD=y
+      - MYSQL_ROOT_PASSWORD=root
     ports:
       - "13306:3306"
     volumes_from:
       - datastore
-  web:
+  application:
     build: .
     environment:
-      - PORT=4000
+      - CUENTA_PORT=4000
+      - CUENTA_DATABASE_HOST=cuenta-database
+      - CUENTA_DATABASE_USER=root
+      - CUENTA_DATABASE_PASSWORD=root
     ports:
       - "4000:4000"
     depends_on:
-      - db
+      - database
     volumes_from:
       - datastore
