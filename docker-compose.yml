@@ -15,6 +15,7 @@ services:
       - datastore
   application:
     build: .
+    image: cuenta-application
     environment:
       - CUENTA_PORT=4000
       - CUENTA_DATABASE_HOST=cuenta-database
