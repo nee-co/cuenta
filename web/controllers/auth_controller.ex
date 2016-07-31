@@ -2,11 +2,13 @@ defmodule Cuenta.AuthController do
   use Cuenta.Web, :controller
 
   alias Cuenta.User
+  alias Cuenta.KongClientService
 
   def login(conn, %{"number" => number, "password" => password}) do
     case authenticate(number, password) do
       {:ok, login_user} ->
-        render(conn, "login.json", user: login_user)
+        token = KongClientService.register_token(login_user.id, login_user.number)
+        render(conn, "login.json", token: token, user: login_user)
       :error ->
         send_resp(conn, 404, "")
     end
