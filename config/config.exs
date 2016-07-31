@@ -7,7 +7,8 @@ use Mix.Config
 
 # General application configuration
 config :cuenta,
-  ecto_repos: [Cuenta.Repo]
+  ecto_repos: [Cuenta.Repo],
+  kong_url: System.get_env("KONG_URL")
 
 # Configures the endpoint
 config :cuenta, Cuenta.Endpoint,
