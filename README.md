@@ -1,19 +1,19 @@
-# Nee-co cuenta
+# Nee-co Cuenta
 ### 共有事項
-|         概要        |   イベント管理APIサーバー |
+|         概要        |    ユーザ管理APIサーバー  |
 |:-------------------:|:-------------------------:|
 |          OS         |         CentOS (7.2)      |
 |       使用言語      |         Elixir (1.3)      |
 |  使用フレームワーク |       Phoenix (1.2.0)     |
 |    バージョン管理   |             Git           |
 |    Gitホスティング  |          Bitbucket        |
-|      タスク管理     |           Backlog         |
 
 ---
 
 ### 必要知識/キーワード
 - Git
 - Vagrant
+- Docker
 - MVC
 - Elixir
 - Phoenix
@@ -41,14 +41,13 @@ $ git config --global user.email "Bitbucketに設定したメールアドレス"
 ---
 
 ### 開発構築手順
-- VagrantBox(cuentaを追加する) `vagrant box add aldea <boxファイルパス>`
 - 共有リポジトリから自分のリポジトリを[Fork](https://bitbucket.org/nhac/cuenta/fork)する
 - クローンしたリポジトリのアクセス権に `nee-co (nhac:nee-co)` グループをReadで追加する(レビューしやすくするため)
 
 ```
 $ git clone git@bitbucket.org:<ユーザ名>/cuenta.git
 $ cd cuenta
-$ git remote add blessed git@bitbucket.org:nhac/cuenta.git
+$ git remote add upstream git@bitbucket.org:nhac/cuenta.git
 $ git remote update
 $ vagrant up
 $ vagrant ssh
@@ -91,10 +90,14 @@ vagrant> mix phoenix.server
     * origin(フォークした自分のリポジトリ)にpushする
 
 - プルリクエスト
-    * Bitbucket上でblessedリポジトリにPR(プルリクエスト)を出す
+    * Bitbucket上でupstreamリポジトリにPR(プルリクエスト)を出す
     * PRを出す前に最新のdevelopからをrebaseしておくとコンフリクトに対応しやすい
-    * PRを出すまではremaseやammendはやっても良いが、PR後は避けるべき
+    * PRを出すまではrebaseやammendはやっても良いが、PR後は避けるべき
     * 宛先branchはdevelopにする
     * `Title` `説明`はわかりやすくする(チケット番号をつけるとチケットを追いやすいためGood)
     * レビューアがマージする(プルリクエストを出した本人は基本的にマージしない)
     * 作業途中のPRはPRタイトルに `[WIP]` をつける
+
+### Dockerイメージ作成
+
+`docker-compose build`
