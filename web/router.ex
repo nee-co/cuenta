@@ -23,6 +23,7 @@ defmodule Cuenta.Router do
     scope "/users" do
       get "/list", UserController, :list
       get "/search", UserController, :search
+      get "/:id", UserController, :show
     end
   end
 end

@@ -3,6 +3,13 @@ defmodule Cuenta.UserController do
 
   alias Cuenta.User
 
+  def show(conn, %{"id" => id}) do
+    user = Repo.get!(User, id) |> Repo.preload(:college)
+    render(conn, "user.json", user: user)
+  rescue
+    Ecto.NoResultsError -> send_resp(conn, 404, "")
+  end
+
   def list(conn, %{"user_ids" => user_ids}) do
     ids = ~i/#{user_ids}/
 
