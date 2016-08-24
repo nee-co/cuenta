@@ -4,11 +4,12 @@ defmodule Cuenta.UserController do
   alias Cuenta.User
 
   def index(conn, _params) do
-    current_user_id = conn.req_headers
-                 |> Enum.find(&elem(&1, 0) == "x-consumer-custom-id")
-                 |> elem(1)
-    user = Repo.get!(User, current_user_id) |> Repo.preload(:college)
-    render(conn, "user.json", user: user)
+    case conn.req_headers |> Enum.find(&elem(&1, 0) == "x-consumer-custom-id") do
+      { "x-consumer-custom-id", current_user_id } ->
+        user = Repo.get!(User, current_user_id) |> Repo.preload(:college)
+        render(conn, "user.json", user: user)
+      _ -> send_resp(conn, 401, "")
+    end
   end
 
   def show(conn, %{"id" => id}) do
