@@ -22,9 +22,15 @@ defmodule Cuenta.Router do
 
     scope "/users" do
       get "", UserController, :index
-      get "/list", UserController, :list
       get "/search", UserController, :search
       get "/:id", UserController, :show
+    end
+
+    # 内部バックエンドシステム向けAPI
+    scope "/internal" do
+      scope "/users" do
+        get "/list", UserController, :list
+      end
     end
   end
 end
