@@ -3,7 +3,7 @@ defmodule Cuenta.CollegeTest do
 
   alias Cuenta.College
 
-  @valid_attrs %{code: "some content", name: "some content"}
+  @valid_attrs %{code: "some content", name: "some content", default_image_path: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

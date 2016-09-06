@@ -5,6 +5,7 @@ defmodule Cuenta.Repo.Migrations.InitialSchema do
     create table(:colleges) do
       add :name, :string, null: false
       add :code, :string, size: 1,  null: false, unique: true
+      add :default_image_path, :string, null: false
 
       timestamps()
     end
