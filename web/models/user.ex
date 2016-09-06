@@ -43,12 +43,22 @@ defmodule Cuenta.User do
     |> unique_constraint(:number, message: "duplicate number")
     |> assoc_constraint(:college)
     |> hash_password
+    |> set_default_image(user.image_path)
   end
 
   defp hash_password(changeset) do
     case get_change(changeset, :password) do
         nil      -> changeset
         password -> put_change(changeset, :encrypted_password, hashpwsalt(password))
+    end
+  end
+
+  defp set_default_image(changeset, image_path) do
+    if image_path == nil && get_change(changeset, :image_path) == nil do
+      college = Repo.get!(College, get_change(changeset, :college_id))
+      put_change(changeset, :image_path, college.default_image_path)
+    else
+      changeset
     end
   end
 end
