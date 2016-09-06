@@ -2,19 +2,22 @@ defmodule Cuenta.User do
   use Cuenta.Web, :model
 
   import Comeonin.Bcrypt, only: [hashpwsalt: 1]
+  alias Cuenta.Repo
+  alias Cuenta.College
 
   schema "users" do
     field :name, :string
     field :number, :string
     field :encrypted_password, :string
     field :password, :string, virtual: true
+    field :image_path, :string
 
     timestamps()
 
     belongs_to :college, Cuenta.College
   end
 
-  @required_fields ~w(name number password college_id)a
+  @required_fields ~w(name number password college_id image_path)a
 
   def like_name_or_number(query, str) do
     query |> where([u], like(u.name, ^"%#{str}%") or like(u.number, ^"%#{String.downcase(str)}%"))
