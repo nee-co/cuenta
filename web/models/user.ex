@@ -36,6 +36,7 @@ defmodule Cuenta.User do
   def changeset(user, params \\ %{}) do
     user
     |> cast(params, @required_fields)
+    |> set_default_image(user.image_path)
     |> validate_required(@required_fields)
     |> validate_length(:number, is: 9)
     |> validate_length(:password, min: 8)
@@ -43,7 +44,6 @@ defmodule Cuenta.User do
     |> unique_constraint(:number, message: "duplicate number")
     |> assoc_constraint(:college)
     |> hash_password
-    |> set_default_image(user.image_path)
   end
 
   defp hash_password(changeset) do
