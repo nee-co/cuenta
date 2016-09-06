@@ -12,3 +12,10 @@ erl_crash.dump
 .vagrant
 
 .DS_Store
+
+/uploads/*
+!/uploads/images/
+/uploads/images/*
+!/uploads/images/users/
+/uploads/images/users/*
+!/uploads/images/users/defaults/
