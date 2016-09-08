@@ -2,19 +2,22 @@ defmodule Cuenta.User do
   use Cuenta.Web, :model
 
   import Comeonin.Bcrypt, only: [hashpwsalt: 1]
+  alias Cuenta.Repo
+  alias Cuenta.College
 
   schema "users" do
     field :name, :string
     field :number, :string
     field :encrypted_password, :string
     field :password, :string, virtual: true
+    field :image_path, :string
 
     timestamps()
 
     belongs_to :college, Cuenta.College
   end
 
-  @required_fields ~w(name number password college_id)a
+  @required_fields ~w(name number password college_id image_path)a
 
   def like_name_or_number(query, str) do
     query |> where([u], like(u.name, ^"%#{str}%") or like(u.number, ^"%#{String.downcase(str)}%"))
@@ -33,6 +36,7 @@ defmodule Cuenta.User do
   def changeset(user, params \\ %{}) do
     user
     |> cast(params, @required_fields)
+    |> set_default_image(user.image_path)
     |> validate_required(@required_fields)
     |> validate_length(:number, is: 9)
     |> validate_length(:password, min: 8)
@@ -46,6 +50,15 @@ defmodule Cuenta.User do
     case get_change(changeset, :password) do
         nil      -> changeset
         password -> put_change(changeset, :encrypted_password, hashpwsalt(password))
+    end
+  end
+
+  defp set_default_image(changeset, image_path) do
+    if image_path == nil && get_change(changeset, :image_path) == nil do
+      college = Repo.get!(College, get_change(changeset, :college_id))
+      put_change(changeset, :image_path, college.default_image_path)
+    else
+      changeset
     end
   end
 end

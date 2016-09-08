@@ -18,6 +18,7 @@ defmodule Cuenta.UserControllerTest do
 
     assert json_response(conn, 200) == %{
       "user_id" => user.id, "name" => user.name, "number" => user.number,
+      "image_path" => Application.get_env(:cuenta, :image_url) <> college.default_image_path,
       "college" => %{"code" => college.code, "name" => college.name}
     }
   end
@@ -38,10 +39,12 @@ defmodule Cuenta.UserControllerTest do
     assert json_response(conn, 200)["users"] == [
       %{
         "user_id" => user1.id, "name" => user1.name, "number" => user1.number,
+        "image_path" => Application.get_env(:cuenta, :image_url) <> college1.default_image_path,
         "college" => %{"code" => college1.code, "name" => college1.name}
         },
       %{
         "user_id" => user2.id, "name" => user2.name, "number" => user2.number,
+        "image_path" => Application.get_env(:cuenta, :image_url) <> college2.default_image_path,
         "college" => %{"code" => college2.code, "name" => college2.name}
         }
     ]
@@ -55,6 +58,7 @@ defmodule Cuenta.UserControllerTest do
     assert json_response(conn, 200)["users"] == [
       %{
         "user_id" => user.id, "name" => user.name, "number" => user.number,
+        "image_path" => Application.get_env(:cuenta, :image_url) <> college.default_image_path,
         "college" => %{"code" => college.code, "name" => college.name}
         }
     ]
@@ -90,10 +94,12 @@ defmodule Cuenta.UserControllerTest do
     assert json_response(conn, 200)["users"] == [
       %{
         "user_id" => user1.id, "name" => user1.name, "number" => user1.number,
+        "image_path" => Application.get_env(:cuenta, :image_url) <> college1.default_image_path,
         "college" => %{"code" => college1.code, "name" => college1.name}
         },
       %{
         "user_id" => user2.id, "name" => user2.name, "number" => user2.number,
+        "image_path" => Application.get_env(:cuenta, :image_url) <> college2.default_image_path,
         "college" => %{"code" => college2.code, "name" => college2.name}
         }
     ]
@@ -104,6 +110,7 @@ defmodule Cuenta.UserControllerTest do
     assert json_response(conn, 200)["users"] == [
       %{
         "user_id" => user1.id, "name" => user1.name, "number" => user1.number,
+        "image_path" => Application.get_env(:cuenta, :image_url) <> college1.default_image_path,
         "college" => %{"code" => college1.code, "name" => college1.name}
         }
     ]
@@ -121,10 +128,12 @@ defmodule Cuenta.UserControllerTest do
     assert json_response(conn, 200)["users"] == [
       %{
         "user_id" => user1.id, "name" => user1.name, "number" => user1.number,
+        "image_path" => Application.get_env(:cuenta, :image_url) <> college1.default_image_path,
         "college" => %{"code" => college1.code, "name" => college1.name}
         },
       %{
         "user_id" => user2.id, "name" => user2.name, "number" => user2.number,
+        "image_path" => Application.get_env(:cuenta, :image_url) <> college2.default_image_path,
         "college" => %{"code" => college2.code, "name" => college2.name}
         }
     ]
@@ -135,6 +144,7 @@ defmodule Cuenta.UserControllerTest do
     assert json_response(conn, 200)["users"] == [
       %{
         "user_id" => user1.id, "name" => user1.name, "number" => user1.number,
+        "image_path" => Application.get_env(:cuenta, :image_url) <> college1.default_image_path,
         "college" => %{"code" => college1.code, "name" => college1.name}
         }
     ]
@@ -151,6 +161,7 @@ defmodule Cuenta.UserControllerTest do
     assert json_response(conn, 200)["users"] == [
       %{
         "user_id" => user1.id, "name" => user1.name, "number" => user1.number,
+        "image_path" => Application.get_env(:cuenta, :image_url) <> college1.default_image_path,
         "college" => %{"code" => college1.code, "name" => college1.name}
         }
     ]
@@ -167,6 +178,7 @@ defmodule Cuenta.UserControllerTest do
     assert json_response(conn, 200)["users"] == [
       %{
         "user_id" => user2.id, "name" => user2.name, "number" => user2.number,
+        "image_path" => Application.get_env(:cuenta, :image_url) <> college2.default_image_path,
         "college" => %{"code" => college2.code, "name" => college2.name}
         }
     ]
@@ -183,6 +195,7 @@ defmodule Cuenta.UserControllerTest do
     assert json_response(conn, 200)["users"] == [
       %{
         "user_id" => user2.id, "name" => user2.name, "number" => user2.number,
+        "image_path" => Application.get_env(:cuenta, :image_url) <> college2.default_image_path,
         "college" => %{"code" => college2.code, "name" => college2.name}
         }
     ]
@@ -199,6 +212,7 @@ defmodule Cuenta.UserControllerTest do
     assert json_response(conn, 200)["users"] == [
       %{
         "user_id" => user1.id, "name" => user1.name, "number" => user1.number,
+        "image_path" => Application.get_env(:cuenta, :image_url) <> college1.default_image_path,
         "college" => %{"code" => college1.code, "name" => college1.name}
         }
     ]

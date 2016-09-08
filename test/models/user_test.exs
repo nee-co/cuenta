@@ -3,7 +3,7 @@ defmodule Cuenta.UserTest do
 
   alias Cuenta.User
 
-  @valid_attrs %{college_id: 1, password: "12345678", name: "example_name", number: "g011a1234"}
+  @valid_attrs %{college_id: 1, password: "12345678", name: "example_name", number: "g011a1234", image_path: "/hoge/fuga.png"}
 
   test "changeset / valid" do
     changeset = User.changeset(%User{}, @valid_attrs)
