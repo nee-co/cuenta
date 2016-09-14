@@ -21,6 +21,8 @@ services:
       - CUENTA_DATABASE_HOST=cuenta-database
       - CUENTA_DATABASE_USER=root
       - CUENTA_DATABASE_PASSWORD=root
+      - CUENTA_KONG_URL=http://kong-application:8001
+      - CUENTA_IMAGE_URL=http://localhost
     ports:
       - "4000:4000"
     depends_on:
