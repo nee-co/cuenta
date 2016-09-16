@@ -3,6 +3,7 @@ ARG REVISION
 LABEL revision=$REVISION maintainer="Nee-co"
 ENV MIX_ENV=prod
 RUN apk --no-cache --update add mariadb-client
+RUN mix do local.hex --force, local.rebar --force
 COPY mix.exs /app/mix.exs
 COPY mix.lock /app/mix.lock
 WORKDIR /app
