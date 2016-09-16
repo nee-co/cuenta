@@ -100,4 +100,4 @@ vagrant> mix phoenix.server
 
 ### Dockerイメージ作成
 
-`docker-compose build`
+`make build`
