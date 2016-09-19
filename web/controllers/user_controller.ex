@@ -4,10 +4,8 @@ defmodule Cuenta.UserController do
   alias Cuenta.User
 
   def index(conn, _params) do
-    case conn.req_headers |> Enum.find(&elem(&1, 0) == "x-consumer-custom-id") do
-      { "x-consumer-custom-id", current_user_id } ->
-        user = Repo.get!(User, current_user_id) |> Repo.preload(:college)
-        render(conn, "user.json", user: user)
+    case current_user(conn) do
+      {:ok, user} -> render(conn, "user.json", user: user)
       _ -> send_resp(conn, 401, "")
     end
   end
@@ -79,5 +77,13 @@ defmodule Cuenta.UserController do
 
   def search(conn, _params) do
     send_resp(conn, 400, "")
+  end
+
+  defp current_user(conn) do
+    case conn.req_headers |> Enum.find(&elem(&1, 0) == "x-consumer-custom-id") do
+      { "x-consumer-custom-id", current_user_id } ->
+        {:ok, Repo.get!(User, current_user_id) |> Repo.preload(:college)}
+      _ -> {:error, "Unauthorized"}
+    end
   end
 end
