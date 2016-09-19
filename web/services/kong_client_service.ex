@@ -46,7 +46,7 @@ defmodule Cuenta.KongClientService do
     %Joken.Token{}
     |> with_signer(hs256("secret"))
     |> with_claim("iss", data["key"])
-    |> with_claim("exp", Timex.now |> Timex.shift(weeks: 1) |> Timex.to_unix)
+    |> with_claim("exp", Timex.now("Asia/Tokyo") |> Timex.shift(weeks: 1) |> Timex.to_unix)
     |> with_signer(hs256(data["secret"]))
     |> sign
     |> get_compact

@@ -104,7 +104,7 @@ defmodule Cuenta.UserController do
   end
 
   defp upload_image(image) do
-    date = Timex.now |> DateTime.to_date
+    date = Timex.now("Asia/Tokyo") |> DateTime.to_date
     image_dir = "/images/users/#{date.year}/#{date.month}/#{date.day}/"
     File.mkdir_p!("uploads#{image_dir}")
 
