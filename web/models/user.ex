@@ -17,7 +17,8 @@ defmodule Cuenta.User do
     belongs_to :college, Cuenta.College
   end
 
-  @required_fields ~w(name number password college_id image_path)a
+  @required_fields ~w(name number encrypted_password college_id image_path)a
+  @permit_fields @required_fields ++ ~w(password)a
 
   def like_name_or_number(query, str) do
     query |> where([u], like(u.name, ^"%#{str}%") or like(u.number, ^"%#{String.downcase(str)}%"))
@@ -35,15 +36,15 @@ defmodule Cuenta.User do
 
   def changeset(user, params \\ %{}) do
     user
-    |> cast(params, @required_fields)
+    |> cast(params, @permit_fields)
     |> set_default_image(user.image_path)
+    |> hash_password
     |> validate_required(@required_fields)
     |> validate_length(:number, is: 9)
     |> validate_length(:password, min: 8)
     |> update_change(:number, &String.downcase/1)
     |> unique_constraint(:number, message: "duplicate number")
     |> assoc_constraint(:college)
-    |> hash_password
   end
 
   defp hash_password(changeset) do
