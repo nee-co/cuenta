@@ -19,7 +19,7 @@ defmodule Cuenta.Mixfile do
   def application do
     [mod: {Cuenta, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger,
-                    :gettext, :phoenix_ecto, :mariaex, :comeonin, :httpoison, :joken, :timex]]
+                    :gettext, :phoenix_ecto, :mariaex, :comeonin, :httpoison, :joken, :uuid, :timex]]
   end
 
   # Specifies which paths to compile per environment.
@@ -42,6 +42,7 @@ defmodule Cuenta.Mixfile do
      {:httpoison, "~> 0.9.0"},
      {:joken, "~> 1.2"},
      {:timex, "~> 3.0"},
+     {:uuid, "~> 1.1"},
      {:faker, "~> 0.5", only: [:test, :dev]}]
   end
 
