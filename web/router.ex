@@ -24,6 +24,7 @@ defmodule Cuenta.Router do
       get "/", UserController, :index
       get "/search", UserController, :search
       get "/:id", UserController, :show
+      post "/image", UserController, :image
     end
 
     # 内部バックエンドシステム向けAPI

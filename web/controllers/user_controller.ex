@@ -79,11 +79,37 @@ defmodule Cuenta.UserController do
     send_resp(conn, 400, "")
   end
 
+  def image(conn, params) do
+    case current_user(conn) do
+      {:ok, user} ->
+        case params |> Map.fetch("image") do
+          {:ok, image} ->
+            changeset = User.changeset(user, %{ image_path: upload_image(image) })
+            case Repo.update(changeset) do
+              {:ok, user} -> render(conn, "user.json", user: user)
+              _ -> send_resp(conn, 500, "")
+            end
+          _ -> send_resp(conn, 400, "")
+        end
+      _ -> send_resp(conn, 401, "")
+    end
+  end
+
   defp current_user(conn) do
     case conn.req_headers |> Enum.find(&elem(&1, 0) == "x-consumer-custom-id") do
       { "x-consumer-custom-id", current_user_id } ->
         {:ok, Repo.get!(User, current_user_id) |> Repo.preload(:college)}
       _ -> {:error, "Unauthorized"}
     end
+  end
+
+  defp upload_image(image) do
+    date = Timex.now |> DateTime.to_date
+    image_dir = "/images/users/#{date.year}/#{date.month}/#{date.day}/"
+    File.mkdir_p!("uploads#{image_dir}")
+
+    image_path = image_dir <> UUID.uuid4 <> Path.extname(image.filename)
+    File.cp!(image.path, "uploads#{image_path}")
+    image_path
   end
 end
