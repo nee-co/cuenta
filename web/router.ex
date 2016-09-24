@@ -1,16 +1,12 @@
 defmodule Cuenta.Router do
   use Cuenta.Web, :router
 
-  pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_flash
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
-  end
-
   pipeline :api do
     plug :accepts, ["json"]
+  end
+
+  pipeline :authenticated do
+    plug Cuenta.Plug.RequireLogin
   end
 
   scope "/", Cuenta do
@@ -21,6 +17,8 @@ defmodule Cuenta.Router do
     end
 
     scope "/users" do
+      pipe_through :authenticated
+
       get "/", UserController, :index
       get "/search", UserController, :search
       get "/:id", UserController, :show

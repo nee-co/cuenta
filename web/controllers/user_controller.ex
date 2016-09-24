@@ -1,13 +1,13 @@
 defmodule Cuenta.UserController do
   use Cuenta.Web, :controller
 
+  import Cuenta.UserImageService, only: [upload_image: 1, remove_image: 1]
+  import Cuenta.AuthHelper, only: [current_user: 1]
+
   alias Cuenta.User
 
   def index(conn, _params) do
-    case current_user(conn) do
-      {:ok, user} -> render(conn, "user.json", user: user)
-      _ -> send_resp(conn, 401, "")
-    end
+    render(conn, "user.json", user: current_user(conn))
   end
 
   def show(conn, %{"id" => id}) do
@@ -80,36 +80,17 @@ defmodule Cuenta.UserController do
   end
 
   def image(conn, params) do
-    case current_user(conn) do
-      {:ok, user} ->
-        case params |> Map.fetch("image") do
-          {:ok, image} ->
-            changeset = User.changeset(user, %{ image_path: upload_image(image) })
-            case Repo.update(changeset) do
-              {:ok, user} -> render(conn, "user.json", user: user)
-              _ -> send_resp(conn, 500, "")
-            end
-          _ -> send_resp(conn, 400, "")
+    case params |> Map.fetch("image") do
+      {:ok, image} ->
+        old_image_path = current_user(conn).image_path
+        changeset = User.changeset(current_user(conn), %{ image_path: upload_image(image) })
+        case Repo.update(changeset) do
+          {:ok, user} ->
+            remove_image(old_image_path)
+            render(conn, "user.json", user: user)
+          _ -> send_resp(conn, 500, "")
         end
-      _ -> send_resp(conn, 401, "")
+      _ -> send_resp(conn, 400, "")
     end
-  end
-
-  defp current_user(conn) do
-    case conn.req_headers |> Enum.find(&elem(&1, 0) == "x-consumer-custom-id") do
-      { "x-consumer-custom-id", current_user_id } ->
-        {:ok, Repo.get!(User, current_user_id) |> Repo.preload(:college)}
-      _ -> {:error, "Unauthorized"}
-    end
-  end
-
-  defp upload_image(image) do
-    date = Timex.now("Asia/Tokyo") |> DateTime.to_date
-    image_dir = "/images/users/#{date.year}/#{date.month}/#{date.day}/"
-    File.mkdir_p!("uploads#{image_dir}")
-
-    image_path = image_dir <> UUID.uuid4 <> Path.extname(image.filename)
-    File.cp!(image.path, "uploads#{image_path}")
-    image_path
   end
 end
