@@ -13,18 +13,6 @@ config :cuenta, Cuenta.Endpoint,
   check_origin: false,
   watchers: []
 
-
-# Watch static and templates for browser reloading.
-config :cuenta, Cuenta.Endpoint,
-  live_reload: [
-    patterns: [
-      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
-      ~r{priv/gettext/.*(po)$},
-      ~r{web/views/.*(ex)$},
-      ~r{web/templates/.*(eex)$}
-    ]
-  ]
-
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 

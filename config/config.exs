@@ -15,7 +15,7 @@ config :cuenta,
 config :cuenta, Cuenta.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "Bkxvd/l3zAnR1lz8VV8jv/vQ3j+Nr4wCGmvsKd0sC/j+gzA/rKKLDQ9KLWUNYcA5",
-  render_errors: [view: Cuenta.ErrorView, accepts: ~w(html json)],
+  render_errors: [view: Cuenta.ErrorView, accepts: ~w(json)],
   pubsub: [name: Cuenta.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
