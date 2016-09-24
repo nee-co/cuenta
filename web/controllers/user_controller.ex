@@ -1,7 +1,7 @@
 defmodule Cuenta.UserController do
   use Cuenta.Web, :controller
 
-  import Cuenta.UserImageService, only: [upload_image: 1]
+  import Cuenta.UserImageService, only: [upload_image: 1, remove_image: 1]
   import Cuenta.AuthHelper, only: [current_user: 1]
 
   alias Cuenta.User
@@ -82,9 +82,12 @@ defmodule Cuenta.UserController do
   def image(conn, params) do
     case params |> Map.fetch("image") do
       {:ok, image} ->
+        old_image_path = current_user(conn).image_path
         changeset = User.changeset(current_user(conn), %{ image_path: upload_image(image) })
         case Repo.update(changeset) do
-          {:ok, user} -> render(conn, "user.json", user: user)
+          {:ok, user} ->
+            remove_image(old_image_path)
+            render(conn, "user.json", user: user)
           _ -> send_resp(conn, 500, "")
         end
       _ -> send_resp(conn, 400, "")
