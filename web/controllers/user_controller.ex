@@ -2,13 +2,12 @@ defmodule Cuenta.UserController do
   use Cuenta.Web, :controller
 
   import Cuenta.UserImageService, only: [upload_image: 1]
+  import Cuenta.AuthHelper, only: [current_user: 1]
+
   alias Cuenta.User
 
   def index(conn, _params) do
-    case current_user(conn) do
-      {:ok, user} -> render(conn, "user.json", user: user)
-      _ -> send_resp(conn, 401, "")
-    end
+    render(conn, "user.json", user: current_user(conn))
   end
 
   def show(conn, %{"id" => id}) do
@@ -81,26 +80,14 @@ defmodule Cuenta.UserController do
   end
 
   def image(conn, params) do
-    case current_user(conn) do
-      {:ok, user} ->
-        case params |> Map.fetch("image") do
-          {:ok, image} ->
-            changeset = User.changeset(user, %{ image_path: upload_image(image) })
-            case Repo.update(changeset) do
-              {:ok, user} -> render(conn, "user.json", user: user)
-              _ -> send_resp(conn, 500, "")
-            end
-          _ -> send_resp(conn, 400, "")
+    case params |> Map.fetch("image") do
+      {:ok, image} ->
+        changeset = User.changeset(current_user(conn), %{ image_path: upload_image(image) })
+        case Repo.update(changeset) do
+          {:ok, user} -> render(conn, "user.json", user: user)
+          _ -> send_resp(conn, 500, "")
         end
-      _ -> send_resp(conn, 401, "")
-    end
-  end
-
-  defp current_user(conn) do
-    case conn.req_headers |> Enum.find(&elem(&1, 0) == "x-consumer-custom-id") do
-      { "x-consumer-custom-id", current_user_id } ->
-        {:ok, Repo.get!(User, current_user_id) |> Repo.preload(:college)}
-      _ -> {:error, "Unauthorized"}
+      _ -> send_resp(conn, 400, "")
     end
   end
 end

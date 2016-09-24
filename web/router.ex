@@ -5,6 +5,10 @@ defmodule Cuenta.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :authenticated do
+    plug Cuenta.Plug.RequireLogin
+  end
+
   scope "/", Cuenta do
     pipe_through :api
 
@@ -13,6 +17,8 @@ defmodule Cuenta.Router do
     end
 
     scope "/users" do
+      pipe_through :authenticated
+
       get "/", UserController, :index
       get "/search", UserController, :search
       get "/:id", UserController, :show
