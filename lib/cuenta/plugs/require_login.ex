@@ -8,7 +8,7 @@ defmodule Cuenta.Plug.RequireLogin do
 
   def call(conn, _) do
     case get_req_header(conn, "x-consumer-custom-id") do
-      [user_id | _] ->
+      [user_id] ->
         assign(conn, :current_user, Repo.get!(User, user_id) |> Repo.preload(:college))
       _ -> send_resp(conn, 401, "") |> halt
     end
