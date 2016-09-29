@@ -1,24 +1,19 @@
 version: '2'
 services:
-  datastore:
-    image: busybox
-    volumes:
-      - /var/lib/mysql
-      - /app/log
   database:
     image: mariadb
     environment:
       - MYSQL_ROOT_PASSWORD=root
     ports:
       - "13306:3306"
-    volumes_from:
-      - datastore
+    volumes:
+    - cuenta:/var/lib/mysql
   application:
     build: .
     image: cuenta-application
     environment:
       - CUENTA_PORT=4000
-      - CUENTA_DATABASE_HOST=cuenta-database
+      - CUENTA_DATABASE_HOST=database
       - CUENTA_DATABASE_USER=root
       - CUENTA_DATABASE_PASSWORD=root
       - CUENTA_KONG_URL=http://kong-application:8001
@@ -27,5 +22,7 @@ services:
       - "4000:4000"
     depends_on:
       - database
-    volumes_from:
-      - datastore
+volumes:
+  cuenta:
+    external:
+      name: neeco_cuenta
