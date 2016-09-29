@@ -1,6 +1,6 @@
 version: '2'
 services:
-  database:
+  cuenta-database:
     image: mariadb
     environment:
       - MYSQL_ROOT_PASSWORD=root
@@ -8,21 +8,48 @@ services:
       - "13306:3306"
     volumes:
     - cuenta:/var/lib/mysql
-  application:
+  cuenta-application:
     build: .
     image: cuenta-application
     environment:
       - CUENTA_PORT=4000
-      - CUENTA_DATABASE_HOST=database
+      - CUENTA_DATABASE_HOST=cuenta-database
       - CUENTA_DATABASE_USER=root
       - CUENTA_DATABASE_PASSWORD=root
       - CUENTA_KONG_URL=http://kong-application:8001
       - CUENTA_IMAGE_URL=http://localhost
-    ports:
-      - "4000:4000"
     depends_on:
-      - database
+      - cuenta-database
+
+  # Kong
+  kong-database:
+    image: postgres:9.4
+    environment:
+      - POSTGRES_USER=kong
+      - POSTGRES_DB=kong
+    volumes:
+      - kong:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  kong-application:
+    image: kong-application
+    environment:
+      - KONG_DATABASE=postgres
+      - KONG_PG_HOST=kong-database
+    ports:
+      - "8000:8000" # public api http
+      - "80:80"     # pubic image
+      - "8001:8001" # admin api
+      - "8443:8443" # public api https
+    depends_on:
+      - kong-database
+    volumes:
+      - ./public/:/public/:ro
+
 volumes:
   cuenta:
     external:
       name: neeco_cuenta
+  kong:
+    external:
+      name: neeco_kong
