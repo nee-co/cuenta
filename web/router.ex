@@ -28,8 +28,8 @@ defmodule Cuenta.Router do
     # 内部バックエンドシステム向けAPI
     scope "/internal" do
       scope "/users" do
-        get "/:id", UserController, :show
         get "/list", UserController, :list
+        get "/:id", UserController, :show
       end
     end
   end
