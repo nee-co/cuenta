@@ -42,6 +42,7 @@ defmodule Cuenta.Mixfile do
      {:joken, "~> 1.2"},
      {:timex, "~> 3.0"},
      {:uuid, "~> 1.1"},
+     {:cors_plug, "~> 1.1"},
      {:faker, "~> 0.5", only: [:test, :dev]}]
   end
 
