@@ -36,5 +36,7 @@ defmodule Cuenta.Endpoint do
     key: "_cuenta_key",
     signing_salt: "wKeeapnO"
 
+  plug CORSPlug
+
   plug Cuenta.Router
 end
