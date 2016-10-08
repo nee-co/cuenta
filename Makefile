@@ -1,6 +1,6 @@
 REVISION = `git rev-parse HEAD`
 
-.PHONY: images dev-images up_db up_app volumes networks
+.PHONY: images dev-images up_db up_app volumes networks import_default-files
 
 image:
 	docker build --no-cache --tag cuenta-application:$(REVISION) .
@@ -24,3 +24,6 @@ volumes:
 networks:
 	@docker network create neeco_cuenta || true
 	@docker network create neeco_kong-cuenta || true
+
+import_default-files: volumes
+	docker run --rm -it -v neeco_cuenta:/work cuenta-application cp -r /app/uploads/images/ /work/

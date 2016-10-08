@@ -111,3 +111,6 @@ vagrant> mix phoenix.server
 
 * ボリューム作成
     + `make volumes`
+
+* デフォルトの画像取り込み
+    + `make import_default-files`
