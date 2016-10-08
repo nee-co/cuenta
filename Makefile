@@ -3,10 +3,10 @@ REVISION = `git rev-parse HEAD`
 .PHONY: image dev-image up_db up_app setup_db volumes networks import_default-files
 
 image:
-	docker build --no-cache --tag cuenta-application:$(REVISION) .
+	docker build --no-cache --tag cuenta-application --build-arg REVISION=$(REVISION) .
 
 dev-image:
-	docker build --tag cuenta-application:$(REVISION) .
+	docker build --tag cuenta-application --build-arg REVISION=$(REVISION) .
 
 up_db:
 	docker-compose up -d cuenta-database
