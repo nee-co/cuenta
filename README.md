@@ -98,6 +98,16 @@ vagrant> mix phoenix.server
     * レビューアがマージする(プルリクエストを出した本人は基本的にマージしない)
     * 作業途中のPRはPRタイトルに `[WIP]` をつける
 
-### Dockerイメージ作成
+### Docker Task
 
-`make build`
+* イメージ作成(cache未使用)
+    + `make image`
+
+* 開発用イメージ作成(chache使用)
+    + `make dev-image`
+
+* ネットワーク作成
+    + `make networks`
+
+* ボリューム作成
+    + `make volumes`

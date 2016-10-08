@@ -1,21 +1,26 @@
-REVISION=`git rev-parse HEAD`
+REVISION = `git rev-parse HEAD`
 
-build:
-	docker build --no-cache --tag cuenta-application --build-arg REVISION=$(REVISION) .
+.PHONY: images dev-images up_db up_app volumes networks
 
-dev-build:
-	docker build --tag cuenta-application --build-arg REVISION=$(REVISION) .
+image:
+	docker build --no-cache --tag cuenta-application:$(REVISION) .
+
+dev-image:
+	docker build --tag cuenta-application:$(REVISION) .
 
 up_db:
 	docker-compose up -d kong-database cuenta-database
 
+up_app:
+	docker-compose up -d cuenta-application
+
 setup_db:
 	docker-compose run --rm cuenta-application mix ecto.setup
 
-up_app: up_cuenta-app up_kong-app
+volumes:
+	@docker volume create --name neeco_cuenta || true
+	@docker volume create --name neeco_public || true
 
-up_cuenta-app:
-	docker-compose up -d cuenta-application
-
-up_kong-app:
-	docker-compose up -d kong-application
+networks:
+	@docker network create neeco_cuenta || true
+	@docker network create neeco_kong-cuenta || true
