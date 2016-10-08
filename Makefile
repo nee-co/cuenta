@@ -1,6 +1,6 @@
 REVISION = `git rev-parse HEAD`
 
-.PHONY: images dev-images up_db up_app volumes networks import_default-files
+.PHONY: images dev-images up_db up_app setup_db volumes networks import_default-files
 
 image:
 	docker build --no-cache --tag cuenta-application:$(REVISION) .
