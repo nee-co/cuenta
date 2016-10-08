@@ -9,7 +9,7 @@ dev-image:
 	docker build --tag cuenta-application:$(REVISION) .
 
 up_db:
-	docker-compose up -d kong-database cuenta-database
+	docker-compose up -d cuenta-database
 
 up_app:
 	docker-compose up -d cuenta-application
