@@ -20,7 +20,7 @@ services:
       - CUENTA_IMAGE_URL=http://localhost
     depends_on:
       - cuenta-database
-    voluems:
+    volumes:
       - public:/app/uploads
     networks:
       - cuenta
