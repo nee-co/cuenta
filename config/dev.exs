@@ -23,8 +23,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :cuenta, Cuenta.Repo,
   adapter: Ecto.Adapters.MySQL,
-  username: "root",
-  password: "",
+  username: (System.get_env("CUENTA_DATABASE_USER") || "root"),
+  password: (System.get_env("CUENTA_DATABASE_PASSWORD") || ""),
   database: "cuenta_dev",
-  hostname: "localhost", # docker? "db" : "localhost"
+  hostname: (System.get_env("CUENTA_DATABASE_HOST") || "localhost"),
   pool_size: 10
