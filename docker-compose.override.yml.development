@@ -1,0 +1,7 @@
+version: '2'
+services:
+  cuenta-application:
+    volumes:
+      - .:/app
+    environment:
+      - MIX_ENV=dev
