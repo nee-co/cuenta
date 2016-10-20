@@ -39,6 +39,7 @@ defmodule Cuenta.UserController do
     users = User
     |> User.in_user(~i/#{user_ids}/)
     |> User.like_name_or_number(str)
+    |> limit(50)
     |> Repo.all |> Repo.preload(:college)
     render(conn, "search.json", users: users)
   rescue
@@ -49,6 +50,7 @@ defmodule Cuenta.UserController do
     users = User
     |> User.in_user(~i/#{user_ids}/)
     |> User.like_name_or_number(str)
+    |> limit(50)
     |> Repo.all |> Repo.preload(:college)
 
     render(conn, "search.json", users: users)
@@ -60,6 +62,7 @@ defmodule Cuenta.UserController do
     users = User
     |> User.like_name_or_number(str)
     |> User.in_college(~w/#{String.downcase(college_codes)}/)
+    |> limit(50)
     |> Repo.all |> Repo.preload(:college)
 
     render(conn, "search.json", users: users)
@@ -70,6 +73,7 @@ defmodule Cuenta.UserController do
   def search(conn, %{"str" => str}) do
     users = User
     |> User.like_name_or_number(str)
+    |> limit(50)
     |> Repo.all |> Repo.preload(:college)
 
     render(conn, "search.json", users: users)
