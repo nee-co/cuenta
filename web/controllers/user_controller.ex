@@ -98,7 +98,7 @@ defmodule Cuenta.UserController do
     send_resp(conn, 400, "")
   end
 
-  def update(conn, %{"current_password" => current_password, "new_password" => new_password}) do
+  def update_password(conn, %{"current_password" => current_password, "new_password" => new_password}) do
     case authenticate(current_user(conn).number, current_password) do
       {:ok, user} ->
         changeset = User.changeset(user, %{password: new_password})
