@@ -1,7 +1,8 @@
 defmodule Cuenta.AuthController do
   use Cuenta.Web, :controller
 
-  alias Cuenta.User
+  import Cuenta.AuthHelper, only: [authenticate: 2]
+
   alias Cuenta.KongClientService
 
   def login(conn, %{"number" => number, "password" => password}) do
@@ -16,15 +17,5 @@ defmodule Cuenta.AuthController do
 
   def login(conn, _params) do
     send_resp(conn, 400, "")
-  end
-
-  defp authenticate(number, password) do
-    user = Repo.get_by!(User, number: String.downcase(number)) |> Repo.preload(:college)
-    case Comeonin.Bcrypt.checkpw(password, user.encrypted_password) do
-      true -> {:ok, user}
-      _    -> :error
-    end
-  rescue
-    Ecto.NoResultsError -> :error
   end
 end

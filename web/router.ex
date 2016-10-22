@@ -23,6 +23,7 @@ defmodule Cuenta.Router do
       get "/search", UserController, :search
       get "/:id", UserController, :show
       post "/image", UserController, :image
+      patch "/password", UserController, :update_password
     end
 
     # 内部バックエンドシステム向けAPI

@@ -2,7 +2,7 @@ defmodule Cuenta.UserController do
   use Cuenta.Web, :controller
 
   import Cuenta.UserImageService, only: [upload_image: 1, remove_image: 1]
-  import Cuenta.AuthHelper, only: [current_user: 1]
+  import Cuenta.AuthHelper, only: [current_user: 1, authenticate: 2]
 
   alias Cuenta.User
 
@@ -96,5 +96,17 @@ defmodule Cuenta.UserController do
 
   def image(conn, _params) do
     send_resp(conn, 400, "")
+  end
+
+  def update_password(conn, %{"current_password" => current_password, "new_password" => new_password}) do
+    case authenticate(current_user(conn).number, current_password) do
+      {:ok, user} ->
+        case User.changeset(user, %{password: new_password}) |> Repo.update do
+          {:ok, user} -> send_resp(conn, 204, "")
+          _ -> send_resp(conn, 500, "")
+        end
+      :errer ->
+        send_resp(conn, 403, "")
+    end
   end
 end
