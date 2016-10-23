@@ -14,8 +14,4 @@ defmodule Cuenta.AuthController do
         send_resp(conn, 404, "")
     end
   end
-
-  def login(conn, _params) do
-    send_resp(conn, 400, "")
-  end
 end
