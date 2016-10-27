@@ -100,11 +100,8 @@ vagrant> mix phoenix.server
 
 ### Docker Task
 
-* イメージ作成(cache未使用)
+* イメージ作成
     + `make image`
-
-* 開発用イメージ作成(chache使用)
-    + `make dev-image`
 
 * ネットワーク作成
     + `make networks`
