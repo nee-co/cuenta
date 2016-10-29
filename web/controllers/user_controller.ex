@@ -94,7 +94,7 @@ defmodule Cuenta.UserController do
           {:ok, _} -> send_resp(conn, 204, "")
           _ -> send_resp(conn, 500, "")
         end
-      :errer ->
+      :error ->
         send_resp(conn, 403, "")
     end
   end
