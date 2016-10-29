@@ -91,10 +91,10 @@ defmodule Cuenta.UserController do
     case authenticate(current_user(conn).number, current_password) do
       {:ok, user} ->
         case User.changeset(user, %{password: new_password}) |> Repo.update do
-          {:ok, user} -> send_resp(conn, 204, "")
+          {:ok, _} -> send_resp(conn, 204, "")
           _ -> send_resp(conn, 500, "")
         end
-      :errer ->
+      :error ->
         send_resp(conn, 403, "")
     end
   end
