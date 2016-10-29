@@ -10,7 +10,7 @@ defmodule Cuenta.AuthHelper do
     user = Repo.get_by!(User, number: String.downcase(number)) |> Repo.preload(:college)
     case Comeonin.Bcrypt.checkpw(password, user.encrypted_password) do
       true -> {:ok, user}
-      _ -> :errer
+      _ -> :error
     end
   rescue
     Ecto.NoResultsError -> :error
