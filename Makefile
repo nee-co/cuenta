@@ -23,4 +23,4 @@ networks:
 	@docker network create neeco_kong-cuenta || true
 
 import_default-files: volumes
-	docker run --rm -it -v neeco_cuenta:/work cuenta-application cp -r /app/uploads/images/ /work/
+	docker run --rm -i -v neeco_public:/work cuenta-application ash -c "cd /app/uploads/ && cp -r --parents images/users/defaults /work/"
