@@ -20,7 +20,7 @@ defmodule Cuenta.Router do
       pipe_through :authenticated
 
       get "/", UserController, :index
-      get "/search", UserSearchController, :search
+      get "/search", UserController, :search
       get "/:id", UserController, :show
       post "/image", UserController, :image
       patch "/password", UserController, :update_password
