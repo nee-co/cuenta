@@ -7,11 +7,6 @@ defmodule Cuenta.UserView do
     %{users: render_many(users, UserView, "user.json")}
   end
 
-  def render("search.json", %{users: users}) do
-    %{total_count: length(users),
-    users: render_many(users, UserView, "user.json")}
-  end
-
   def render("user.json", %{user: user}) do
     %{
       user_id: user.id,
