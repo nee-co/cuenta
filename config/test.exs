@@ -12,8 +12,8 @@ config :logger, level: :warn
 # Configure your database
 config :cuenta, Cuenta.Repo,
   adapter: Ecto.Adapters.MySQL,
-  username: "root",
-  password: "",
+  username: (System.get_env("CUENTA_DATABASE_USER") || "root"),
+  password: (System.get_env("CUENTA_DATABASE_PASSWORD") || ""),
   database: "cuenta_test",
-  hostname: "localhost",
+  hostname: (System.get_env("CUENTA_DATABASE_HOST") || "localhost"),
   pool: Ecto.Adapters.SQL.Sandbox
