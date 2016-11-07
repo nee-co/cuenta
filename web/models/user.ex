@@ -11,6 +11,7 @@ defmodule Cuenta.User do
     field :encrypted_password, :string
     field :password, :string, virtual: true
     field :image_path, :string
+    field :note, :string
 
     timestamps()
 
@@ -18,7 +19,7 @@ defmodule Cuenta.User do
   end
 
   @required_fields ~w(name number encrypted_password college_id image_path)a
-  @permit_fields @required_fields ++ ~w(password)a
+  @permit_fields @required_fields ++ ~w(password note)a
 
   def like_name_or_number(query, str) do
     query |> where([u], like(u.name, ^"%#{str}%") or like(u.number, ^"%#{String.downcase(str)}%"))
