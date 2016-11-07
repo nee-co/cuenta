@@ -3,8 +3,20 @@ defmodule Cuenta.UserSearchController do
 
   alias Cuenta.User
 
-  def search(conn, %{"str" => str, "user_ids" => user_ids, "college_codes" => _college_codes}) do
+  def search(conn, %{"str" => str, "user_ids" => user_ids, "except_ids" => except_ids, "college_codes" => _}) do
+    base_query(str) |> User.in_user(~i/#{user_ids}/) |> User.not_in_user(~i/#{except_ids}/) |> base_render(conn)
+  rescue
+    ArgumentError -> send_resp(conn, 400, "")
+  end
+
+  def search(conn, %{"str" => str, "user_ids" => user_ids, "college_codes" => _}) do
     base_query(str) |> User.in_user(~i/#{user_ids}/) |> base_render(conn)
+  rescue
+    ArgumentError -> send_resp(conn, 400, "")
+  end
+
+  def search(conn, %{"str" => str, "user_ids" => user_ids, "except_ids" => except_ids}) do
+    base_query(str) |> User.in_user(~i/#{user_ids}/) |> User.not_in_user(~i/#{except_ids}/) |> base_render(conn)
   rescue
     ArgumentError -> send_resp(conn, 400, "")
   end
@@ -15,10 +27,20 @@ defmodule Cuenta.UserSearchController do
     ArgumentError -> send_resp(conn, 400, "")
   end
 
+  def search(conn, %{"str" => str, "college_codes" => college_codes, "except_ids" => except_ids}) do
+    base_query(str) |> User.in_college(~w/#{String.downcase(college_codes)}/) |> User.not_in_user(~i/#{except_ids}/) |> base_render(conn)
+  rescue
+    ArgumentError -> send_resp(conn, 400, "")
+  end
+
   def search(conn, %{"str" => str, "college_codes" => college_codes}) do
     base_query(str) |> User.in_college(~w/#{String.downcase(college_codes)}/) |> base_render(conn)
   rescue
     ArgumentError -> send_resp(conn, 400, "")
+  end
+
+  def search(conn, %{"str" => str, "except_ids" => except_ids}) do
+    base_query(str) |> User.not_in_user(~i/#{except_ids}/) |> base_render(conn)
   end
 
   def search(conn, %{"str" => str}) do

@@ -35,6 +35,10 @@ defmodule Cuenta.User do
     query |> where([u], u.id in ^user_ids)
   end
 
+  def not_in_user(query, user_ids) do
+    query |> where([u], not(u.id in ^user_ids))
+  end
+
   def changeset(user, params \\ %{}) do
     user
     |> cast(params, @permit_fields)
