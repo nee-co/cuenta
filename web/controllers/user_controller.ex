@@ -98,4 +98,12 @@ defmodule Cuenta.UserController do
         send_resp(conn, 403, "")
     end
   end
+
+  def update_note(conn, %{"note" => note}) do
+    case User.changeset(current_user(conn), %{note: note}) |> Repo.update do
+      {:ok, user} ->
+        render(conn, "user.json", user: user)
+      _ -> send_resp(conn, 500, "")
+    end
+  end
 end

@@ -24,6 +24,7 @@ defmodule Cuenta.Router do
       get "/:id", UserController, :show
       post "/image", UserController, :image
       patch "/password", UserController, :update_password
+      put "/note", UserController, :update_note
     end
 
     # 内部バックエンドシステム向けAPI
