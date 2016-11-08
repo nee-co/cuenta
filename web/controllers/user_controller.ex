@@ -31,49 +31,18 @@ defmodule Cuenta.UserController do
     ArgumentError -> send_resp(conn, 400, "")
   end
 
-  def search(conn, %{"str" => str, "user_ids" => user_ids, "college_codes" => _college_codes}) do
+  def search(conn, params) do
     users = User
-    |> User.in_user(~i/#{user_ids}/)
-    |> User.like_name_or_number(str)
+    |> User.like_name_or_number(Map.fetch!(params, "str"))
+    |> targets(params)
+    |> User.not_in_user(~i/#{Map.get(params, "except_ids")} #{current_user(conn).id}/)
     |> limit(50)
     |> Repo.all |> Repo.preload(:college)
 
     render(conn, "search.json", users: users)
   rescue
+    KeyError -> send_resp(conn, 400, "")
     ArgumentError -> send_resp(conn, 400, "")
-  end
-
-  def search(conn, %{"str" => str, "user_ids" => user_ids}) do
-    users = User
-    |> User.in_user(~i/#{user_ids}/)
-    |> User.like_name_or_number(str)
-    |> limit(50)
-    |> Repo.all |> Repo.preload(:college)
-
-    render(conn, "search.json", users: users)
-  rescue
-    ArgumentError -> send_resp(conn, 400, "")
-  end
-
-  def search(conn, %{"str" => str, "college_codes" => college_codes}) do
-    users = User
-    |> User.like_name_or_number(str)
-    |> User.in_college(~w/#{String.downcase(college_codes)}/)
-    |> limit(50)
-    |> Repo.all |> Repo.preload(:college)
-
-    render(conn, "search.json", users: users)
-  rescue
-    ArgumentError -> send_resp(conn, 400, "")
-  end
-
-  def search(conn, %{"str" => str}) do
-    users = User
-    |> User.like_name_or_number(str)
-    |> limit(50)
-    |> Repo.all |> Repo.preload(:college)
-
-    render(conn, "search.json", users: users)
   end
 
   def image(conn, %{"image" => image}) do
@@ -96,6 +65,25 @@ defmodule Cuenta.UserController do
         end
       :error ->
         send_resp(conn, 403, "")
+    end
+  end
+
+  def update_note(conn, %{"note" => note}) do
+    case User.changeset(current_user(conn), %{note: note}) |> Repo.update do
+      {:ok, user} ->
+        render(conn, "user.json", user: user)
+      _ -> send_resp(conn, 500, "")
+    end
+  end
+
+  defp targets(query, params) do
+    case Map.fetch(params, "user_ids") do
+      {:ok, user_ids} -> query |> User.in_user(~i/#{user_ids}/)
+      _ ->
+        case Map.fetch(params, "college_codes") do
+          {:ok, college_codes} -> query |> User.in_college(~w/#{String.downcase(college_codes)}/)
+          _ -> query
+        end
     end
   end
 end

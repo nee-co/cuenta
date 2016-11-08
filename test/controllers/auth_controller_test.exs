@@ -16,7 +16,7 @@ defmodule Cuenta.AuthControllerTest do
 
     assert json_response(conn, 200) == %{
         "user_id" => user.id, "name" => "Hanako Yamada", "number" => "g011a1111",
-        "college" => %{"code" => "a", "name" => "クリエイター"}
+        "college" => %{"code" => "a", "name" => "クリエイターズ"}
       }
   end
 
@@ -26,7 +26,7 @@ defmodule Cuenta.AuthControllerTest do
 
     assert json_response(conn, 200) == %{
         "user_id" => user.id, "name" => "Hanako Yamada", "number" => "g011a1111",
-        "college" => %{"code" => "a", "name" => "クリエイター"}
+        "college" => %{"code" => "a", "name" => "クリエイターズ"}
       }
   end
 

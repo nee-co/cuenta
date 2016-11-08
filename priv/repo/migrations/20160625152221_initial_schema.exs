@@ -16,6 +16,7 @@ defmodule Cuenta.Repo.Migrations.InitialSchema do
       add :encrypted_password, :string, null: false
       add :college_id, references(:colleges, on_delete: :nilify_all)
       add :image_path, :string, null: false
+      add :note, :string, null: false, default: ""
 
       timestamps()
     end
