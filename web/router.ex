@@ -16,6 +16,12 @@ defmodule Cuenta.Router do
       post "/login", AuthController, :login
     end
 
+    scope "/token" do
+      pipe_through :authenticated
+
+      post "/", AuthController, :update_token
+    end
+
     scope "/user" do
       pipe_through :authenticated
 

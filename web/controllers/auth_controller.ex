@@ -1,7 +1,7 @@
 defmodule Cuenta.AuthController do
   use Cuenta.Web, :controller
 
-  import Cuenta.AuthHelper, only: [authenticate: 2]
+  import Cuenta.AuthHelper, only: [authenticate: 2, current_user: 1]
 
   alias Cuenta.KongClientService
 
@@ -13,5 +13,11 @@ defmodule Cuenta.AuthController do
       :error ->
         send_resp(conn, 404, "")
     end
+  end
+
+  def update_token(conn, _params) do
+    user = current_user(conn)
+    token = KongClientService.register_token(user.id, user.number)
+    render(conn, "login.json", token: token, user: user)
   end
 end
