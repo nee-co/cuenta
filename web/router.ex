@@ -16,15 +16,20 @@ defmodule Cuenta.Router do
       post "/login", AuthController, :login
     end
 
-    scope "/users" do
+    scope "/user" do
       pipe_through :authenticated
 
       get "/", UserController, :index
-      get "/search", UserController, :search
-      get "/:id", UserController, :show
       post "/image", UserController, :image
       patch "/password", UserController, :update_password
-      put "/note", UserController, :update_note
+      patch "/note", UserController, :update_note
+    end
+
+    scope "/users" do
+      pipe_through :authenticated
+
+      get "/search", UserController, :search
+      get "/:id", UserController, :show
     end
 
     # 内部バックエンドシステム向けAPI
