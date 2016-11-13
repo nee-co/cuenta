@@ -11,8 +11,8 @@ up_db:
 up_app:
 	docker-compose up -d cuenta-application
 
-setup_db:
-	docker-compose run --rm cuenta-application mix ecto.setup
+seed:
+	docker-compose run --rm cuenta-application mix ecto.seed
 
 volumes:
 	@docker volume create --name neeco_cuenta || true
