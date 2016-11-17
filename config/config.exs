@@ -8,8 +8,8 @@ use Mix.Config
 # General application configuration
 config :cuenta,
   ecto_repos: [Cuenta.Repo],
-  kong_url: System.get_env("CUENTA_KONG_URL"),
-  image_url: System.get_env("CUENTA_IMAGE_URL") || "image url has not been set"
+  kong_url: System.get_env("KONG_URL"),
+  image_url: System.get_env("STATIC_URL") || "static url has not been set"
 
 # Configures the endpoint
 config :cuenta, Cuenta.Endpoint,
