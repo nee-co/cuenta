@@ -20,9 +20,6 @@ erl_crash.dump
 /uploads/images/users/*
 !/uploads/images/users/defaults/
 
-# Docker
-docker-compose.override.yml
-
 .env
 
 /.idea
