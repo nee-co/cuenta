@@ -23,5 +23,7 @@ erl_crash.dump
 # Docker
 docker-compose.override.yml
 
+.env
+
 /.idea
 cuenta.iml

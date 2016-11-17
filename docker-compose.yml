@@ -1,25 +1,30 @@
 version: '2'
 services:
   cuenta-database:
-    image: mariadb
+    image: mariadb:10.1
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
     environment:
-      - MYSQL_ROOT_PASSWORD=root
+      MYSQL_DATABASE: cuenta_prod
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      MYSQL_USER: $CUENTA_DATABASE_USER
+      MYSQL_PASSWORD: $CUENTA_DATABASE_PASSWORD
     volumes:
       - cuenta:/var/lib/mysql
     networks:
       - cuenta
   cuenta-application:
-    build: .
-    image: cuenta-application
+    image: registry.neec.xyz/neeco/cuenta-application:latest
     environment:
-      - CUENTA_PORT=4000
-      - CUENTA_DATABASE_HOST=cuenta-database
-      - CUENTA_DATABASE_USER=root
-      - CUENTA_DATABASE_PASSWORD=root
-      - CUENTA_KONG_URL=http://kong-application:8001
-      - CUENTA_IMAGE_URL=http://localhost
+      CUENTA_PORT: 4000
+      CUENTA_DATABASE_HOST: cuenta-database
+      CUENTA_DATABASE_USER:
+      CUENTA_DATABASE_PASSWORD:
+      KONG_URL: http://kong-application:8001
+      STATIC_URL:
     depends_on:
       - cuenta-database
+    ports:
+      - "4000:4000"
     volumes:
       - public:/app/uploads
     networks:
