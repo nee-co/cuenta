@@ -30,7 +30,6 @@ defmodule Cuenta.Router do
       pipe_through :authenticated
 
       get "/search", UserListController, :search
-      get "/:id", UserController, :show
     end
 
     # 内部バックエンドシステム向けAPI

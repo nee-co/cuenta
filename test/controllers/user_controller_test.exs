@@ -20,12 +20,4 @@ defmodule Cuenta.UserControllerTest do
     user = User.changeset(%User{}, %{@valid_attrs | number: "000000000"}) |> Repo.insert!
     {:ok, conn: conn |> put_req_header("accept", "application/json") |> put_req_header("x-consumer-custom-id", user.id |> to_string)}
   end
-
-  test "#show / valid", %{conn: conn} do
-    college = College |> Repo.get(1)
-    user = User.changeset(%User{}, %{@valid_attrs | number: "g011a1111", college_id: college.id}) |> Repo.insert!
-    conn = get conn, user_path(conn, :show, user)
-
-    assert json_response(conn, 200) == user_format(user, college)
-  end
 end
