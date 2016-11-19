@@ -12,14 +12,9 @@ defmodule Cuenta.Router do
   scope "/", Cuenta do
     pipe_through :api
 
-    scope "/auth" do
-      post "/login", AuthController, :login
-    end
-
     scope "/token" do
-      pipe_through :authenticated
-
-      post "/", AuthController, :update_token
+      post "/", TokenController, :create
+      post "/refresh", TokenController, :refresh
     end
 
     scope "/user" do
