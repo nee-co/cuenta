@@ -8,16 +8,15 @@ defmodule Cuenta.AuthController do
   def login(conn, %{"number" => number, "password" => password}) do
     case authenticate(number, password) do
       {:ok, login_user} ->
-        token = KongClientService.register_token(login_user.id, login_user.number)
-        render(conn, "login.json", token: token, user: login_user)
+        {token, expires_at} = KongClientService.register_token(login_user)
+        render(conn, "login.json", token: token, expires_at: expires_at)
       :error ->
         send_resp(conn, 404, "")
     end
   end
 
   def update_token(conn, _params) do
-    user = current_user(conn)
-    token = KongClientService.register_token(user.id, user.number)
-    render(conn, "login.json", token: token, user: user)
+    {token, expires_at} = KongClientService.register_token(current_user(conn))
+    render(conn, "login.json", token: token, expires_at: expires_at)
   end
 end

@@ -1,15 +1,10 @@
 defmodule Cuenta.AuthView do
   use Cuenta.Web, :view
 
-  def render("login.json", %{token: token, user: user}) do
+  def render("login.json", %{token: token, expires_at: expires_at}) do
     %{
       token: token,
-      id: user.id,
-      name: user.name,
-      number: String.upcase(user.number),
-      image: Application.get_env(:cuenta, :static_url) <> user.image_path,
-      college: %{code: user.college.code, name: user.college.name},
-      note: user.note
+      expires_at: expires_at
     }
   end
 end
