@@ -20,7 +20,5 @@ erl_crash.dump
 /uploads/images/users/*
 !/uploads/images/users/defaults/
 
-.env
-
 /.idea
 cuenta.iml

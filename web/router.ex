@@ -12,14 +12,9 @@ defmodule Cuenta.Router do
   scope "/", Cuenta do
     pipe_through :api
 
-    scope "/auth" do
-      post "/login", AuthController, :login
-    end
-
     scope "/token" do
-      pipe_through :authenticated
-
-      post "/", AuthController, :update_token
+      post "/", TokenController, :create
+      post "/refresh", TokenController, :refresh
     end
 
     scope "/user" do
@@ -34,14 +29,13 @@ defmodule Cuenta.Router do
     scope "/users" do
       pipe_through :authenticated
 
-      get "/search", UserController, :search
-      get "/:id", UserController, :show
+      get "/search", UserListController, :search
     end
 
     # 内部バックエンドシステム向けAPI
     scope "/internal" do
       scope "/users" do
-        get "/list", UserController, :list
+        get "/list", UserListController, :list
         get "/:id", UserController, :show
       end
     end
