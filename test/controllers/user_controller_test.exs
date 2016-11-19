@@ -9,8 +9,8 @@ defmodule Cuenta.UserControllerTest do
 
   def user_format(user, college) do
     %{
-      "user_id" => user.id, "name" => user.name, "number" => user.number |> String.upcase,
-      "user_image" => Application.get_env(:cuenta, :static_url) <> college.default_image_path,
+      "id" => user.id, "name" => user.name, "number" => user.number |> String.upcase,
+      "image" => Application.get_env(:cuenta, :static_url) <> college.default_image_path,
       "college" => %{"code" => college.code, "name" => college.name},
       "note" => user.note |> to_string
     }
