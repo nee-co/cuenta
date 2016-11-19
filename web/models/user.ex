@@ -21,8 +21,12 @@ defmodule Cuenta.User do
   @required_fields ~w(name number encrypted_password college_id image_path)a
   @permit_fields @required_fields ++ ~w(password note)a
 
-  def like_name_or_number(query, str) do
-    query |> where([u], like(u.name, ^"%#{str}%") or like(u.number, ^"%#{String.downcase(str)}%"))
+  def like_name(query, name) do
+    query |> where([u], like(u.name, ^"%#{name}%"))
+  end
+
+  def like_number(query, number) do
+    query |> where([u], like(u.number, ^"%#{String.downcase(number)}%"))
   end
 
   def in_college(query, college_codes) do

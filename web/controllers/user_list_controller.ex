@@ -19,28 +19,31 @@ defmodule Cuenta.UserListController do
     ArgumentError -> send_resp(conn, 400, "")
   end
 
-  def search(conn, params) do
+  def search(conn, %{"name" => name, "limit" => limit, "offset" => offset, "except_ids" => except_ids}) do
     users = User
-    |> User.like_name_or_number(Map.fetch!(params, "str"))
-    |> targets(params)
-    |> User.not_in_user(~i/#{Map.get(params, "except_ids")} #{current_user(conn).id}/)
-    |> limit(50)
+    |> User.like_name(name)
+    |> User.not_in_user(~i/#{except_ids} #{current_user(conn).id}/)
+    |> limit(^limit)
+    |> offset(^offset)
     |> Repo.all |> Repo.preload(:college)
 
     render(conn, "search.json", users: users)
   rescue
-    KeyError -> send_resp(conn, 400, "")
     ArgumentError -> send_resp(conn, 400, "")
   end
 
-  defp targets(query, params) do
-    case Map.fetch(params, "user_ids") do
-      {:ok, user_ids} -> query |> User.in_user(~i/#{user_ids}/)
-      _ ->
-        case Map.fetch(params, "college_codes") do
-          {:ok, college_codes} -> query |> User.in_college(~w/#{String.downcase(college_codes)}/)
-          _ -> query
-        end
+  def search(conn, %{"number" => number, "except_ids" => except_ids}) do
+    users = User
+    |> User.like_number(number)
+    |> User.not_in_user(~i/#{except_ids} #{current_user(conn).id}/)
+    |> limit(2)
+    |> Repo.all |> Repo.preload(:college)
+
+    case length(users) do
+      1 -> render(conn, "search.json", users: users)
+      _ -> render(conn, "search.json", users: [])
     end
+  rescue
+    ArgumentError -> send_resp(conn, 400, "")
   end
 end

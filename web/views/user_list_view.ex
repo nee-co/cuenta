@@ -8,7 +8,6 @@ defmodule Cuenta.UserListView do
   end
 
   def render("search.json", %{users: users}) do
-    %{total_count: length(users),
-    users: render_many(users, UserView, "user.json")}
+    %{users: render_many(users, UserView, "user.json")}
   end
 end
