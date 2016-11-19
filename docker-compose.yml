@@ -5,9 +5,7 @@ services:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
     environment:
       MYSQL_DATABASE: cuenta_dev
-      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
-      MYSQL_USER: $CUENTA_DATABASE_USER
-      MYSQL_PASSWORD: $CUENTA_DATABASE_PASSWORD
+      MYSQL_ROOT_PASSWORD: root
     volumes:
       - cuenta:/var/lib/mysql
     networks:
@@ -17,10 +15,10 @@ services:
     environment:
       CUENTA_PORT: 4000
       CUENTA_DATABASE_HOST: cuenta-database
-      CUENTA_DATABASE_USER:
-      CUENTA_DATABASE_PASSWORD:
+      CUENTA_DATABASE_USER: root
+      CUENTA_DATABASE_PASSWORD: root
       KONG_URL: http://kong-application:8001
-      STATIC_URL:
+      STATIC_URL: http://localhost
       MIX_ENV: dev
     depends_on:
       - cuenta-database
@@ -35,16 +33,14 @@ services:
 
 volumes:
   cuenta:
-    external:
-      name: neeco_cuenta
+    driver: local
   public:
     external:
       name: neeco_public
 
 networks:
   cuenta:
-    external:
-      name: neeco_cuenta
+    driver: bridge
   kong-cuenta:
     external:
       name: neeco_kong-cuenta
