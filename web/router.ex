@@ -29,14 +29,14 @@ defmodule Cuenta.Router do
     scope "/users" do
       pipe_through :authenticated
 
-      get "/search", UserController, :search
+      get "/search", UserListController, :search
       get "/:id", UserController, :show
     end
 
     # 内部バックエンドシステム向けAPI
     scope "/internal" do
       scope "/users" do
-        get "/list", UserController, :list
+        get "/list", UserListController, :list
         get "/:id", UserController, :show
       end
     end
