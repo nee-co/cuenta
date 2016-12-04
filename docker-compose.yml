@@ -19,7 +19,7 @@ services:
       CUENTA_DATABASE_PASSWORD: root
       IMAGEN_URL: http://imagen-application:8000/
       KONG_URL: http://kong-application:8001/
-      STATIC_URL: http://localhost
+      STATIC_IMAGE_URL: http://localhost/
       MIX_ENV: dev
     depends_on:
       - cuenta-database

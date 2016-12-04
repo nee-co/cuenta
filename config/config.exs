@@ -10,7 +10,7 @@ config :cuenta,
   ecto_repos: [Cuenta.Repo],
   imagen_url: System.get_env("IMAGEN_URL"),
   kong_url: System.get_env("KONG_URL"),
-  static_url: System.get_env("STATIC_URL") || "static url has not been set"
+  static_image_url: System.get_env("STATIC_IMAGE_URL") || "static url has not been set"
 
 # Configures the endpoint
 config :cuenta, Cuenta.Endpoint,
