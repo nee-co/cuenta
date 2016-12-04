@@ -17,7 +17,8 @@ services:
       CUENTA_DATABASE_HOST: cuenta-database
       CUENTA_DATABASE_USER: root
       CUENTA_DATABASE_PASSWORD: root
-      KONG_URL: http://kong-application:8001
+      IMAGEN_URL: http://imagen-application:8000/
+      KONG_URL: http://kong-application:8001/
       STATIC_URL: http://localhost
       MIX_ENV: dev
     depends_on:
