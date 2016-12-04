@@ -15,4 +15,5 @@ volumes:
 	@docker volume create --name neeco_public || true
 
 networks:
+	@docker network create neeco_cuenta-imagen || true
 	@docker network create neeco_kong-cuenta || true

@@ -29,6 +29,7 @@ services:
       - .:/app
     networks:
       - cuenta
+      - cuenta-imagen
       - kong-cuenta
 
 volumes:
@@ -41,6 +42,9 @@ volumes:
 networks:
   cuenta:
     driver: bridge
+  cuenta-imagen:
+    external:
+      name: neeco_cuenta-imagen
   kong-cuenta:
     external:
       name: neeco_kong-cuenta
