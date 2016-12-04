@@ -13,12 +13,5 @@ erl_crash.dump
 
 .DS_Store
 
-/uploads/*
-!/uploads/images/
-/uploads/images/*
-!/uploads/images/users/
-/uploads/images/users/*
-!/uploads/images/users/defaults/
-
 /.idea
 cuenta.iml
