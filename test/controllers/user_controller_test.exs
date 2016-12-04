@@ -2,7 +2,6 @@ defmodule Cuenta.UserControllerTest do
   use Cuenta.ConnCase
 
   alias Cuenta.User
-  alias Cuenta.College
 
   @valid_attrs %{college_id: 1, password: "password", name: "Hanako Yamada", number: "g011a1111", note: ""}
   @invalid_attrs %{}
@@ -10,7 +9,7 @@ defmodule Cuenta.UserControllerTest do
   def user_format(user, college) do
     %{
       "id" => user.id, "name" => user.name, "number" => user.number |> String.upcase,
-      "image" => Application.get_env(:cuenta, :static_image_url) <> college.default_image_path,
+      "image" => Application.get_env(:cuenta, :static_image_url),
       "college" => %{"code" => college.code, "name" => college.name},
       "note" => user.note |> to_string
     }

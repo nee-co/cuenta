@@ -10,7 +10,7 @@ defmodule Cuenta.Imagen do
     unless Application.get_env(:cuenta, :imagen_url) do
       raise ImagenError
     end
-    Application.get_env(:cuenta, :imagen_url) <> url
+    Path.join(Application.get_env(:cuenta, :imagen_url), url)
   end
 
   def process_response_body(body) do

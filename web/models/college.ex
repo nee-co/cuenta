@@ -4,7 +4,6 @@ defmodule Cuenta.College do
   schema "colleges" do
     field :name, :string
     field :code, :string
-    field :default_image_path, :string
 
     timestamps()
 
@@ -16,7 +15,7 @@ defmodule Cuenta.College do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :code, :default_image_path])
-    |> validate_required([:name, :code, :default_image_path])
+    |> cast(params, [:name, :code])
+    |> validate_required([:name, :code])
   end
 end
