@@ -1,6 +1,6 @@
 REVISION = `git rev-parse HEAD`
 
-.PHONY: image db app volumes networks
+.PHONY: image db app networks
 
 image:
 	docker build --tag cuenta-application --build-arg REVISION=$(REVISION) .
@@ -10,9 +10,6 @@ db:
 
 app:
 	docker-compose run -p 4000:4000 cuenta-application ash
-
-volumes:
-	@docker volume create --name neeco_public || true
 
 networks:
 	@docker network create neeco_cuenta-imagen || true

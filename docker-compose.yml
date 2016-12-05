@@ -26,7 +26,6 @@ services:
     ports:
       - "4000:4000"
     volumes:
-      - public:/app/uploads
       - .:/app
     networks:
       - cuenta
@@ -36,9 +35,6 @@ services:
 volumes:
   cuenta:
     driver: local
-  public:
-    external:
-      name: neeco_public
 
 networks:
   cuenta:
