@@ -10,7 +10,7 @@ defmodule Cuenta.Kong do
     unless Application.get_env(:cuenta, :kong_url) do
       raise KongError
     end
-    Application.get_env(:cuenta, :kong_url) <> url
+    Path.join(Application.get_env(:cuenta, :kong_url), url)
   end
 
   def process_response_body(body) do

@@ -17,8 +17,9 @@ services:
       CUENTA_DATABASE_HOST: cuenta-database
       CUENTA_DATABASE_USER: root
       CUENTA_DATABASE_PASSWORD: root
-      KONG_URL: http://kong-application:8001
-      STATIC_URL: http://localhost
+      IMAGEN_URL: http://imagen-application:8000/
+      KONG_URL: http://kong-application:8001/
+      STATIC_IMAGE_URL: http://localhost/
       MIX_ENV: dev
     depends_on:
       - cuenta-database
@@ -29,6 +30,7 @@ services:
       - .:/app
     networks:
       - cuenta
+      - cuenta-imagen
       - kong-cuenta
 
 volumes:
@@ -41,6 +43,9 @@ volumes:
 networks:
   cuenta:
     driver: bridge
+  cuenta-imagen:
+    external:
+      name: neeco_cuenta-imagen
   kong-cuenta:
     external:
       name: neeco_kong-cuenta
