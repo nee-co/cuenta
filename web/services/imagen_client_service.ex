@@ -6,7 +6,7 @@ defmodule Cuenta.ImagenClientService do
       {:ok, res} ->
         case res.status_code do
           200 -> :ok
-          _ -> {:unprocessable_entity, res.body["error"]}
+          _ -> {:unprocessable_entity, res.body["message"]}
         end
       _ -> :error
     end
