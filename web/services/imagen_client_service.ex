@@ -5,7 +5,7 @@ defmodule Cuenta.ImagenClientService do
     case Imagen.put("internal/images/#{image_name}", image_param(image)) do
       {:ok, res} ->
         case res.status_code do
-          200 -> :ok
+          201 -> :ok
           _ -> {:unprocessable_entity, res.body["message"]}
         end
       _ -> :error
