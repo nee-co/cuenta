@@ -12,7 +12,7 @@ defmodule Cuenta.ImagenClientService do
     end
   end
 
-  def image_param(image) do
+  defp image_param(image) do
     options = [{"name", "image"}, {"filename", image.filename}]
     headers = [{"Content-Type", image.content_type}]
     {:multipart, [{:file, image.path, {"form-data", options}, headers}]}
