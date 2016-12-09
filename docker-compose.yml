@@ -19,6 +19,7 @@ services:
       CUENTA_DATABASE_PASSWORD: root
       IMAGEN_URL: http://imagen-application:8000/
       KONG_URL: http://kong-application:8001/
+      OLVIDO_URL: http://olvido-application:8001/
       STATIC_IMAGE_URL: http://localhost/
       MIX_ENV: dev
     depends_on:
@@ -30,6 +31,7 @@ services:
     networks:
       - cuenta
       - cuenta-imagen
+      - cuenta-olvido
       - kong-cuenta
 
 volumes:
@@ -42,6 +44,9 @@ networks:
   cuenta-imagen:
     external:
       name: neeco_cuenta-imagen
+  cuenta-olvido:
+    external:
+      name: neeco_cuenta-olvido
   kong-cuenta:
     external:
       name: neeco_kong-cuenta
