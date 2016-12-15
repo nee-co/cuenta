@@ -13,4 +13,5 @@ app:
 
 networks:
 	@docker network create neeco_cuenta-imagen || true
+	@docker network create neeco_cuenta-olvido || true
 	@docker network create neeco_kong-cuenta || true

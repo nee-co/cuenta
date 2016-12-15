@@ -14,6 +14,8 @@ defmodule Cuenta.Router do
 
     scope "/token" do
       post "/", TokenController, :create
+      get "/challenge/:number", TokenController, :random_question
+      post "/challenge/:number", TokenController, :challenge
       post "/refresh", TokenController, :refresh
     end
 
