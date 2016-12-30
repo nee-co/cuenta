@@ -3,7 +3,8 @@ defmodule Cuenta.KongClientServiceError do
 end
 
 defmodule Cuenta.KongClientService do
-  import Joken
+  import Cuenta.TokenHelper, only: [claims: 1, jwt: 1]
+
   alias Cuenta.Kong
   alias Cuenta.KongClientServiceError
 
@@ -13,6 +14,17 @@ defmodule Cuenta.KongClientService do
       {:ok, res} ->
         case res.status_code do
           201 -> res.body |> jwt
+          _ -> raise KongClientServiceError, "unexpected status_code"
+        end
+      _ -> raise KongClientServiceError
+    end
+  end
+
+  def delete_token(token, user) do
+    case Kong.delete("/consumers/#{user.number}/jwt/#{claims(token)["iss"]}") do
+      {:ok, res} ->
+        case res.status_code do
+          204 -> :ok
           _ -> raise KongClientServiceError, "unexpected status_code"
         end
       _ -> raise KongClientServiceError
@@ -40,17 +52,5 @@ defmodule Cuenta.KongClientService do
         end
       _ -> raise KongClientServiceError
     end
-  end
-
-  defp jwt(data) do
-    expires_at = Timex.now("Asia/Tokyo") |> Timex.shift(weeks: 1)
-    token = %Joken.Token{}
-    |> with_signer(hs256("secret"))
-    |> with_claim("iss", data["key"])
-    |> with_claim("exp", expires_at |> Timex.to_unix)
-    |> with_signer(hs256(data["secret"]))
-    |> sign
-    |> get_compact
-    {token, expires_at}
   end
 end

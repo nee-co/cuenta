@@ -2,12 +2,13 @@ defmodule Cuenta.TokenController do
   use Cuenta.Web, :controller
 
   import Cuenta.AuthHelper, only: [authenticate: 2, current_user: 1]
+  import Cuenta.TokenHelper, only: [token: 1]
 
   alias Cuenta.User
   alias Cuenta.KongClientService
   alias Cuenta.OlvidoClientService
 
-  plug Cuenta.Plug.RequireLogin when action in ~w(refresh)a
+  plug Cuenta.Plug.RequireLogin when action in ~w(refresh revoke)a
 
   def create(conn, %{"number" => number, "password" => password}) do
     case authenticate(number, password) do
@@ -51,5 +52,10 @@ defmodule Cuenta.TokenController do
   def refresh(conn, _params) do
     {token, expires_at} = KongClientService.register_token(current_user(conn))
     render(conn, "token.json", token: token, expires_at: expires_at)
+  end
+
+  def revoke(conn, _params) do
+    KongClientService.delete_token(token(conn), current_user(conn))
+    send_resp(conn, 204, "")
   end
 end

@@ -17,6 +17,7 @@ defmodule Cuenta.Router do
       get "/challenge/:number", TokenController, :random_question
       post "/challenge/:number", TokenController, :challenge
       post "/refresh", TokenController, :refresh
+      post "/revoke", TokenController, :revoke
     end
 
     scope "/user" do
