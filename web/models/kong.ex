@@ -14,6 +14,9 @@ defmodule Cuenta.Kong do
   end
 
   def process_response_body(body) do
-    body |> Poison.decode!
+    case body do
+      "" -> body
+      _ -> body |> Poison.decode!
+    end
   end
 end
