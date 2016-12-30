@@ -1,9 +1,4 @@
-REVISION = `git rev-parse HEAD`
-
-.PHONY: image db app networks
-
-image:
-	docker build --tag cuenta-application --build-arg REVISION=$(REVISION) .
+.PHONY: db app networks
 
 db:
 	docker-compose up -d cuenta-database
