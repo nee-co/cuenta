@@ -9,7 +9,7 @@ services:
     volumes:
       - cuenta:/var/lib/mysql
     networks:
-      - cuenta
+      - neeco
   cuenta-application:
     image: registry.neec.xyz/dev/cuenta-application:latest
     environment:
@@ -29,24 +29,13 @@ services:
     volumes:
       - .:/app
     networks:
-      - cuenta
-      - cuenta-imagen
-      - cuenta-olvido
-      - kong-cuenta
+      - neeco
 
 volumes:
   cuenta:
     driver: local
 
 networks:
-  cuenta:
-    driver: bridge
-  cuenta-imagen:
+  neeco:
     external:
-      name: neeco_cuenta-imagen
-  cuenta-olvido:
-    external:
-      name: neeco_cuenta-olvido
-  kong-cuenta:
-    external:
-      name: neeco_kong-cuenta
+      name: neeco_develop
