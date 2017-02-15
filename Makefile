@@ -1,4 +1,4 @@
-.PHONY: db app networks
+.PHONY: db app network
 
 db:
 	docker-compose up -d cuenta-database
@@ -6,7 +6,5 @@ db:
 app:
 	docker-compose run -p 4000:4000 cuenta-application ash
 
-networks:
-	@docker network create neeco_cuenta-imagen || true
-	@docker network create neeco_cuenta-olvido || true
-	@docker network create neeco_kong-cuenta || true
+network:
+	@docker network create neeco_develop || true

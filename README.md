@@ -101,4 +101,4 @@ vagrant> mix phoenix.server
 ### Docker Task
 
 * ネットワーク作成
-    + `make networks`
+    + `make network`
