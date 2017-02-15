@@ -37,12 +37,12 @@ defmodule Cuenta.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
-     {:comeonin, "~> 2.5"},
-     {:httpoison, "~> 0.9.0"},
+     {:comeonin, "~> 3.0"},
+     {:httpoison, "~> 0.10.0"},
      {:joken, "~> 1.2"},
      {:timex, "~> 3.0"},
      {:uuid, "~> 1.1"},
-     {:faker, "~> 0.5", only: [:test, :dev]}]
+     {:faker, "~> 0.7", only: [:test, :dev]}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
