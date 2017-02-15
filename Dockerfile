@@ -1,4 +1,4 @@
-FROM registry.neec.xyz/neeco/elixir:1.3.4
+FROM registry.neec.xyz/neeco/elixir:1.4.1
 ENV MIX_ENV=prod
 RUN apk add --no-cache --update mariadb-client && \
     apk add --no-cache --virtual build-dependencies \
